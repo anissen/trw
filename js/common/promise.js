@@ -87,7 +87,7 @@ Promise.prototype._executeCallback = function(cb) {
 		return;
 	}
 
-	try {
+	//try {
 		var returned = cb(this._value);
 
 		if (returned && typeof(returned.then) == "function") {
@@ -99,11 +99,12 @@ Promise.prototype._executeCallback = function(cb) {
 			/* 3.2.6.1. If either onFulfilled or onRejected returns a value that is not a promise, promise2 must be fulfilled with that value. */ 
 			thenPromise.fulfill(returned);
 		}
-
+/*
 	} catch (e) {
 
-		/* 3.2.6.2. If either onFulfilled or onRejected throws an exception, promise2 must be rejected with the thrown exception as the reason. */
+		// 3.2.6.2. If either onFulfilled or onRejected throws an exception, promise2 must be rejected with the thrown exception as the reason. 
 		thenPromise.reject(e); 
 
 	}
+  */
 }    
