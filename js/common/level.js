@@ -3,7 +3,7 @@ Game.Level = function() {
 	this.beings = {};
 	this.items = {};
 
-	this._display = new Game.Display({fontFamily:"droid sans mono, monospace"});
+	this._display = new Game.Display({fontFamily:"droid sans mono, monospace"}); // "comic sans ms"
 	this._ambientLight = [130, 130, 130];
 	this._sightRange = 10;
 	

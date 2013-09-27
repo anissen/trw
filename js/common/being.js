@@ -120,13 +120,27 @@ Game.Being.prototype.chat = function(being) {
 	/* FIXME proper formatting */
 	
 	if (this._chats) {
-		response = "%He responds: \"%s\"".format(this, this._chats.random());
+		response = "%He svarer: \"%s\"".format(this, this._chats.random());
 	} else {
-		response = "No response."
+		response = "Ingen svar."
 	}
 	Game.status.show(response);
 	
 	return this;
+}
+
+Game.Being.prototype.speak = function(being) {
+  this._chattedWith = true;
+  /* FIXME proper formatting */
+  
+  if (this._chats) {
+    response = "%s siger: \"%s\"".format(this._name, this._chats.random());
+  } else {
+    response = "%s stirer på dig.".format(this._name);
+  }
+  Game.status.show(response);
+  
+  return this;
 }
 
 Game.Being.prototype.chattedWith = function() {

@@ -77,12 +77,24 @@ Game.Beings.define("guest", {
 	weight: 0
 });
 
-Game.Beings.define("priest", {
+Game.Beings.define("rus", {
+  extend: "humanoid",
+  tasks: ["slowwander"],
+  chats: ["Jeg er ikke vant til at drikke så meget", "Kan du ikke ringe efter en taxa?", "Hvorfor er der så mange af dig?", "Du ligner min fætter. Han er vildt grimt.", "Kan du låse mig ind på medicin?", "Min tutor er vildt sej - han kunne bunde en HEL øl!", "dIntProg er svært.", "Jeg vil være tutor når jeg bliver stor", "Jeg overvejer at droppe ud og blive humanist"],
+  name: "rus",
+  sex: [1, 2],
+  color: [140, 140, 140],
+  colorVariation: [30, 30, 30]
+}, {
+  weight: 0
+});
+
+Game.Beings.define("SEKR", {
 	extend: "humanoid",
-	tasks: [],
-	chats: ["You want to talk to the bride - and you brought her nothing? Shame on you!"],
-	sex: 1,
-	name: "priest",
+	tasks: ["encounter"],
+	chats: ["blah blah"],
+	sex: 2,
+	name: "SEKR",
 	color: [200, 30, 200]
 }, {
 	weight: 0
