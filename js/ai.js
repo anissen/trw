@@ -25,8 +25,8 @@ Game.AI.prototype._performTask = function(task) {
 		case "slowwander":
 			return (ROT.RNG.getUniform() > 0.67 ? this._wander() : true);
 		break;
-    case "encounter":
-      return this._encounter();
+    case "talkToPlayer":
+      return this._talkToPlayer();
     break;
 		case "attack":
 			return this._attack();
@@ -99,7 +99,7 @@ Game.AI.prototype._attack = function() {
 	return true;
 }
 
-Game.AI.prototype._encounter = function() {
+Game.AI.prototype._talkToPlayer = function() {
   var level = this._being.getLevel();
   var thisPosition = this._being.getPosition();
   var targetPosition = Game.player.getPosition();
@@ -112,6 +112,14 @@ Game.AI.prototype._encounter = function() {
     //this._being.attack(Game.player);
     //alert('hello!');
     this._being.speak(Game.player);
+    var tasks = this._being.getTasks();
+    for (var i = 0; i < tasks.length; i++) {
+      if (tasks[i] === 'talkToPlayer') {
+        tasks.splice(i, 1);
+        this._being.setTasks(tasks);
+        break;
+      }
+    }
     return true;
   }
 

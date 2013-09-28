@@ -91,7 +91,7 @@ Game.Beings.define("rus", {
 
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
-	tasks: ["encounter"],
+	tasks: ["talkToPlayer"],
 	chats: ["blah blah"],
 	sex: 2,
 	name: "SEKR",

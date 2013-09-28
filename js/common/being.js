@@ -242,9 +242,9 @@ Game.Being.prototype.describeVerb = function(verb) {
 }
 
 Game.Being.prototype.describeHim = function() {
-	return ["it", "him", "her"][this._sex];
+	return ["den", "hans", "hendes"][this._sex];
 }
 
 Game.Being.prototype.describeHe = function() {
-	return ["it", "he", "she"][this._sex];
+	return ["den", "han", "hun"][this._sex];
 }

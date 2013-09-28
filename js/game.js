@@ -95,6 +95,7 @@ var Game = {
 
 		this.player = Game.Beings.create("player");
 
+    // intro sequence
 		new Game.Intro().then(this._start.bind(this));
 	},
 

@@ -3,6 +3,9 @@ Game.Intro = function() {
 	this._promise = new Promise();
 	
 	window.addEventListener("keypress", this);
+
+  // hack to skip intro sequence:
+  this.handleEvent(null);
 }
 
 Game.Intro.prototype.then = function() {

@@ -152,7 +152,7 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 }
 
 Game.Player.prototype._chat = function(being) {
-	Game.status.show("You talk to %a.", being);
+	Game.status.show("Du taler til %a.", being);
 	being.chat(this);
 }
 
@@ -163,14 +163,14 @@ Game.Player.prototype._pickItem = function(x, y) {
 	if (type == "secret-gold") {
 		this._level.removeItem(item);
 		this._secretGold++;
-		Game.status.show("You pick up %a.", item);
+		Game.status.show("Du samler en %a op.", item);
 		return;
 	} 
 
 	if (type == "gold") {
 		this._level.removeItem(item);
 		this._gold++;
-		Game.status.show("You pick up %a.", item);
+		Game.status.show("Du samler en %a op.", item);
 		return;
 	} 
 
@@ -189,7 +189,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 	if (Game.Items.is(type, "gem")) {
 		this._level.removeItem(item);
 		this._gems++;
-		Game.status.show("You pick up %a.", item);
+		Game.status.show("Du samler en %a op.", item);
 		return;
 	} 
 
@@ -198,15 +198,15 @@ Game.Player.prototype._pickItem = function(x, y) {
 
 		if (this._weapon) {
 			this._level.setItem(this._weapon, x, y);
-			Game.status.show("You drop %a and pick up %a.", this._weapon, item);
+			Game.status.show("Du smider %a og samler %a op.", this._weapon, item);
 		} else {
-			Game.status.show("You pick up %a.", item);
+			Game.status.show("Du samler en %a op.", item);
 		}
 		this._weapon = item;
 		var description = item.getDescription();
 		if (this._knownTypes.indexOf(type) == -1 && description) {
 			this._knownTypes.push(type);
-			Game.status.show("%The is %s weapon.".format(item, description));
+			Game.status.show("%The er %s våben.".format(item, description));
 		}
 		
 		this._updateStats();
@@ -218,9 +218,9 @@ Game.Player.prototype._pickItem = function(x, y) {
 
 		if (this._armor) {
 			this._level.setItem(this._armor, x, y);
-			Game.status.show("You drop %a and pick up %a.", this._armor, item);
+			Game.status.show("Du smider %a og samler en %a op.", this._armor, item);
 		} else {
-			Game.status.show("You pick up %a.", item);
+			Game.status.show("Du samler en %a op.", item);
 		}
 		this._armor = item;
 		var description = item.getDescription();
@@ -233,7 +233,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 		return;
 	}
 	
-	Game.status.show("%A is lying here.".format(item));
+	Game.status.show("%A ligger her.".format(item));
 }
 
 Game.Player.prototype._updateStats = function() {

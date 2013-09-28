@@ -2,11 +2,19 @@ Game.Cells = new Game.Repository(Game.Cell);
 
 /* wall blocks */
 
+Game.Cells.define("item", {
+  blocksMovement: 1,
+  color: [80, 80, 80],
+  colorVariation: 10,
+  name: "???"
+});
+
 Game.Cells.define("stonewall", {
 	blocksMovement: 1,
 	blocksLight: 1,
 	"char": "#",
-	color: [80, 80, 80],
+	//color: [80, 80, 80],
+  color: [150, 110, 20],
 	colorVariation: 10,
 	name: "stone wall"
 });
@@ -23,7 +31,7 @@ Game.Cells.define("window", {
 
 Game.Cells.define("floor", {
 	"char": ".",
-	color: [130, 130, 130],
+	color: [30, 30, 30],
 	name: "plain floor"
 });
 
