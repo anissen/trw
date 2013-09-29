@@ -1,6 +1,6 @@
 /*
 	This is rot.js, the ROguelike Toolkit in JavaScript.
-	Version 0.4~dev, generated on Thu Feb 28 14:59:00 CET 2013.
+	Version 0.5~dev, generated on Sat Sep 14 13:19:53 CEST 2013.
 */
 
 /**
@@ -551,141 +551,6 @@ ROT.Text = {
 	}
 }
 /**
- * @class Speed-based scheduler
- */
-ROT.Scheduler = function() {
-	this._items = [];
-}
-
-/**
- * @param {object} item anything with "getSpeed" method
- */
-ROT.Scheduler.prototype.add = function(item) {
-	var o = {
-		item: item,
-		bucket: 1/item.getSpeed()
-	}
-	this._items.push(o);
-	return this;
-}
-
-/**
- * Clear all actors
- */
-ROT.Scheduler.prototype.clear = function() {
-	this._items = [];
-	return this;
-}
-
-/**
- * Remove a previously added item
- * @param {object} item anything with "getSpeed" method
- */
-ROT.Scheduler.prototype.remove = function(item) {
-	var it = null;
-	for (var i=0;i<this._items.length;i++) {
-		it = this._items[i];
-		if (it.item == item) { 
-			this._items.splice(i, 1); 
-			break;
-		}
-	}
-	return this;
-}
-
-/**
- * Schedule next actor
- * @returns {object}
- */
-ROT.Scheduler.prototype.next = function() {
-	if (!this._items.length) { return null; }
-
-	var minBucket = Infinity;
-	var minItem = null;
-
-	for (var i=0;i<this._items.length;i++) {
-		var item = this._items[i];
-		if (item.bucket < minBucket) {
-			minBucket = item.bucket;
-			minItem = item;
-		} else if (item.bucket == minBucket && item.item.getSpeed() > minItem.item.getSpeed()) {
-			minItem = item;
-		}
-	}
-	
-	if (minBucket) { /* non-zero value; subtract from all buckets */
-		for (var i=0;i<this._items.length;i++) {
-			var item = this._items[i];
-			item.bucket = Math.max(0, item.bucket - minBucket);
-		}
-	}
-	
-	minItem.bucket += 1/minItem.item.getSpeed();
-	return minItem.item;
-}
-/**
- * @class Asynchronous main loop
- */
-ROT.Engine = function() {
-	this._scheduler = new ROT.Scheduler();
-	this._lock = 1;
-}
-
-/**
- * @param {object} actor Anything with "getSpeed" and "act" methods
- */
-ROT.Engine.prototype.addActor = function(actor) {
-	this._scheduler.add(actor);
-	return this;
-}
-
-/**
- * Remove a previously added actor
- * @param {object} actor
- */
-ROT.Engine.prototype.removeActor = function(actor) {
-	this._scheduler.remove(actor);
-	return this;
-}
-
-/**
- * Remove all actors
- */
-ROT.Engine.prototype.clear = function() {
-	this._scheduler.clear();
-	return this;
-}
-
-/**
- * Start the main loop. When this call returns, the loop is locked.
- */
-ROT.Engine.prototype.start = function() {
-	return this.unlock();
-}
-
-/**
- * Interrupt the engine by an asynchronous action
- */
-ROT.Engine.prototype.lock = function() {
-	this._lock++;
-}
-
-/**
- * Resume execution (paused by a previous lock)
- */
-ROT.Engine.prototype.unlock = function() {
-	if (!this._lock) { throw new Error("Cannot unlock unlocked engine"); }
-	this._lock--;
-
-	while (!this._lock) {
-		var actor = this._scheduler.next();
-		if (!actor) { return this.lock(); } /* no actors */
-		actor.act();
-	}
-
-	return this;
-}
-/**
  * @returns {any} Randomly picked item, null when length=0
  */
 Array.prototype.random = function() {
@@ -704,12 +569,6 @@ Array.prototype.randomize = function() {
 		result.push(this.splice(index, 1)[0]);
 	}
 	return result;
-}
-if (!Date.now) { 
-	/**
-	 * @returns {int} Current timestamp (msec)
-	 */
-	Date.now = function() { return +(new Date); } 
 }
 /**
  * Always positive modulus
@@ -766,7 +625,8 @@ String.format = function(template) {
 	var args = Array.prototype.slice.call(arguments, 1);
 
 	var replacer = function(match, group1, group2, index) {
-		if (template.charAt(index-1) == "%" || !args.length) { return match; }
+		if (template.charAt(index-1) == "%") { return match.substring(1); }
+		if (!args.length) { return match; }
 		var obj = args[0];
 
 		var group = group1 || group2;
@@ -830,6 +690,7 @@ Function.prototype.extend = function(parent) {
  * @param {string} [options.bg="#000"]
  * @param {int} [options.fps=25]
  * @param {float} [options.spacing=1]
+ * @param {float} [options.border=0]
  * @param {string} [options.layout="rect"]
  */
 ROT.Display = function(options) {
@@ -847,6 +708,7 @@ ROT.Display = function(options) {
 		fontSize: 15,
 		fps: 25,
 		spacing: 1,
+		border: 0,
 		fontFamily: "monospace",
 		fontStyle: "",
 		fg: "#ccc",
@@ -933,6 +795,29 @@ ROT.Display.prototype.computeSize = function(availWidth, availHeight) {
  */
 ROT.Display.prototype.computeFontSize = function(availWidth, availHeight) {
 	return this._backend.computeFontSize(availWidth, availHeight, this._options);
+}
+
+/**
+ * Convert a DOM event (mouse or touch) to map coordinates. Uses first touch for multi-touch.
+ * @param {Event} e event
+ * @returns {int[2]} -1 for values outside of the canvas
+ */
+ROT.Display.prototype.eventToPosition = function(e) {
+	if (e.touches) {
+		var x = e.touches[0].clientX;
+		var y = e.touches[0].clientY;
+	} else {
+		var x = e.clientX;
+		var y = e.clientY;
+	}
+
+	var rect = this._context.canvas.getBoundingClientRect();
+	x -= rect.left;
+	y -= rect.top;
+	
+	if (x < 0 || y < 0 || x >= this._context.canvas.width || y >= this._context.canvas.height) { return [-1, -1]; }
+
+	return this._backend.eventToPosition(x, y);
 }
 
 /**
@@ -1050,6 +935,9 @@ ROT.Display.Backend.prototype.computeSize = function(availWidth, availHeight) {
 
 ROT.Display.Backend.prototype.computeFontSize = function(availWidth, availHeight) {
 }
+
+ROT.Display.Backend.prototype.eventToPosition = function(x, y) {
+}
 /**
  * @class Rectangular backend
  * @private
@@ -1096,12 +984,13 @@ ROT.Display.Rect.prototype._drawWithCache = function(data, clearBefore) {
 	if (hash in this._canvasCache) {
 		var canvas = this._canvasCache[hash];
 	} else {
+		var b = this._options.border;
 		var canvas = document.createElement("canvas");
 		var ctx = canvas.getContext("2d");
 		canvas.width = this._spacingX;
 		canvas.height = this._spacingY;
 		ctx.fillStyle = bg;
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.fillRect(b, b, canvas.width-b, canvas.height-b);
 		
 		if (ch) {
 			ctx.fillStyle = fg;
@@ -1124,8 +1013,9 @@ ROT.Display.Rect.prototype._drawNoCache = function(data, clearBefore) {
 	var bg = data[4];
 
 	if (clearBefore) { 
+		var b = this._options.border;
 		this._context.fillStyle = bg;
-		this._context.fillRect(x*this._spacingX, y*this._spacingY, this._spacingX, this._spacingY);
+		this._context.fillRect(x*this._spacingX + b, y*this._spacingY + b, this._spacingX - b, this._spacingY - b);
 	}
 	
 	if (!ch) { return; }
@@ -1156,6 +1046,10 @@ ROT.Display.Rect.prototype.computeFontSize = function(availWidth, availHeight) {
 		boxHeight = Math.floor(boxHeight / widthFraction);
 	}
 	return Math.floor(boxHeight / this._options.spacing);
+}
+
+ROT.Display.Rect.prototype.eventToPosition = function(x, y) {
+	return [Math.floor(x/this._spacingX), Math.floor(y/this._spacingY)];
 }
 /**
  * @class Hexagonal backend
@@ -1230,17 +1124,32 @@ ROT.Display.Hex.prototype.computeFontSize = function(availWidth, availHeight) {
 	return Math.ceil(fontSize)-1;
 }
 
+ROT.Display.Hex.prototype.eventToPosition = function(x, y) {
+	var height = this._context.canvas.height / this._options.height;
+	y = Math.floor(y/height);
+	
+	if (y.mod(2)) { /* odd row */
+		x -= this._spacingX;
+		x = 1 + 2*Math.floor(x/(2*this._spacingX));
+	} else {
+		x = 2*Math.floor(x/(2*this._spacingX));
+	}
+	
+	return [x, y];
+}
+
 ROT.Display.Hex.prototype._fill = function(cx, cy) {
 	var a = this._hexSize;
+	var b = this._options.border;
 	
 	this._context.beginPath();
-	this._context.moveTo(cx, cy-a);
-	this._context.lineTo(cx + this._spacingX, cy-a/2);
-	this._context.lineTo(cx + this._spacingX, cy+a/2);
-	this._context.lineTo(cx, cy+a);
-	this._context.lineTo(cx - this._spacingX, cy+a/2);
-	this._context.lineTo(cx - this._spacingX, cy-a/2);
-	this._context.lineTo(cx, cy-a);
+	this._context.moveTo(cx, cy-a+b);
+	this._context.lineTo(cx + this._spacingX - b, cy-a/2+b);
+	this._context.lineTo(cx + this._spacingX - b, cy+a/2-b);
+	this._context.lineTo(cx, cy+a-b);
+	this._context.lineTo(cx - this._spacingX + b, cy+a/2-b);
+	this._context.lineTo(cx - this._spacingX + b, cy-a/2+b);
+	this._context.lineTo(cx, cy-a+b);
 	this._context.fill();
 }
 /**
@@ -1531,6 +1440,285 @@ ROT.StringGenerator.prototype._pickRandom = function(data) {
 		part += data[id];
 		if (random < part) { return id; }
 	}
+}
+/**
+ * @class Generic event queue: stores events and retrieves them based on their time
+ */
+ROT.EventQueue = function() {
+	this._time = 0;
+	this._events = [];
+	this._eventTimes = [];
+}
+
+/**
+ * @returns {number} Elapsed time
+ */
+ROT.EventQueue.prototype.getTime = function() {
+	return this._time;
+}
+
+/**
+ * Clear all scheduled events
+ */
+ROT.EventQueue.prototype.clear = function() {
+	this._events = [];
+	this._eventTimes = [];
+	return this;
+}
+
+/**
+ * @param {?} event
+ * @param {number} time
+ */
+ROT.EventQueue.prototype.add = function(event, time) {
+	var index = this._events.length;
+	for (var i=0;i<this._eventTimes.length;i++) {
+		if (this._eventTimes[i] > time) {
+			index = i;
+			break;
+		}
+	}
+
+	this._events.splice(index, 0, event);
+	this._eventTimes.splice(index, 0, time);
+}
+
+/**
+ * Locates the nearest event, advances time if necessary. Returns that event and removes it from the queue.
+ * @returns {? || null} The event previously added by addEvent, null if no event available
+ */
+ROT.EventQueue.prototype.get = function() {
+	if (!this._events.length) { return null; }
+
+	var time = this._eventTimes.splice(0, 1)[0];
+	if (time > 0) { /* advance */
+		this._time += time;
+		for (var i=0;i<this._eventTimes.length;i++) { this._eventTimes[i] -= time; }
+	}
+
+	return this._events.splice(0, 1)[0];
+}
+
+/**
+ * Remove an event from the queue
+ * @param {?} event
+ * @returns {bool} success?
+ */
+ROT.EventQueue.prototype.remove = function(event) {
+	var index = this._events.indexOf(event);
+	if (index == -1) { return false }
+	this._remove(index);
+	return true;
+}
+
+/**
+ * Remove an event from the queue
+ * @param {int} index
+ */
+ROT.EventQueue.prototype._remove = function(index) {
+	this._events.splice(index, 1);
+	this._eventTimes.splice(index, 1);
+}
+/**
+ * @class Abstract scheduler
+ */
+ROT.Scheduler = function() {
+	this._queue = new ROT.EventQueue();
+	this._repeat = [];
+	this._current = null;
+}
+
+/**
+ * @see ROT.EventQueue#getTime
+ */
+ROT.Scheduler.prototype.getTime = function() {
+	return this._queue.getTime();
+}
+
+/**
+ * @param {?} item
+ * @param {bool} repeat
+ */
+ROT.Scheduler.prototype.add = function(item, repeat) {
+	if (repeat) { this._repeat.push(item); }
+	return this;
+}
+
+/**
+ * Clear all items
+ */
+ROT.Scheduler.prototype.clear = function() {
+	this._queue.clear();
+	this._repeat = [];
+	this._current = null;
+	return this;
+}
+
+/**
+ * Remove a previously added item
+ * @param {?} item
+ * @returns {bool} successful?
+ */
+ROT.Scheduler.prototype.remove = function(item) {
+	var result = this._queue.remove(item);
+
+	var index = this._repeat.indexOf(item);
+	if (index != -1) { this._repeat.splice(index, 1); }
+
+	if (this._current == item) { this._current = null; }
+
+	return result;
+}
+
+/**
+ * Schedule next item
+ * @returns {?}
+ */
+ROT.Scheduler.prototype.next = function() {
+	this._current = this._queue.get();
+	return this._current;
+}
+/**
+ * @class Simple fair scheduler (round-robin style)
+ * @augments ROT.Scheduler
+ */
+ROT.Scheduler.Simple = function() {
+	ROT.Scheduler.call(this);
+}
+ROT.Scheduler.Simple.extend(ROT.Scheduler);
+
+/**
+ * @see ROT.Scheduler#add
+ */
+ROT.Scheduler.Simple.prototype.add = function(item, repeat) {
+	this._queue.add(item, 0);
+	return ROT.Scheduler.prototype.add.call(this, item, repeat);
+}
+
+/**
+ * @see ROT.Scheduler#next
+ */
+ROT.Scheduler.Simple.prototype.next = function() {
+	if (this._current && this._repeat.indexOf(this._current) != -1) {
+		this._queue.add(this._current, 0);
+	}
+	return ROT.Scheduler.prototype.next.call(this);
+}
+/**
+ * @class Speed-based scheduler
+ * @augments ROT.Scheduler
+ */
+ROT.Scheduler.Speed = function() {
+	ROT.Scheduler.call(this);
+}
+ROT.Scheduler.Speed.extend(ROT.Scheduler);
+
+/**
+ * @param {object} item anything with "getSpeed" method
+ * @param {bool} repeat
+ * @see ROT.Scheduler#add
+ */
+ROT.Scheduler.Speed.prototype.add = function(item, repeat) {
+	this._queue.add(item, 1/item.getSpeed());
+	return ROT.Scheduler.prototype.add.call(this, item, repeat);
+}
+
+/**
+ * @see ROT.Scheduler#next
+ */
+ROT.Scheduler.Speed.prototype.next = function() {
+	if (this._current && this._repeat.indexOf(this._current) != -1) {
+		this._queue.add(this._current, 1/this._current.getSpeed());
+	}
+	return ROT.Scheduler.prototype.next.call(this);
+}
+/**
+ * @class Action-based scheduler
+ * @augments ROT.Scheduler
+ */
+ROT.Scheduler.Action = function() {
+	ROT.Scheduler.call(this);
+	this._defaultDuration = 1; /* for newly added */
+	this._duration = this._defaultDuration; /* for this._current */
+}
+ROT.Scheduler.Action.extend(ROT.Scheduler);
+
+/**
+ * @param {object} item
+ * @param {bool} repeat
+ * @param {number} [time=1]
+ * @see ROT.Scheduler#add
+ */
+ROT.Scheduler.Action.prototype.add = function(item, repeat, time) {
+	this._queue.add(item, time || this._defaultDuration);
+	return ROT.Scheduler.prototype.add.call(this, item, repeat);
+}
+
+ROT.Scheduler.Action.prototype.clear = function() {
+	this._duration = this._defaultDuration;
+	return ROT.Scheduler.prototype.clear.call(this);
+}
+
+ROT.Scheduler.Action.prototype.remove = function(item) {
+	if (item == this._current) { this._duration = this._defaultDuration; }
+	return ROT.Scheduler.prototype.remove.call(this, item);
+}
+
+/**
+ * @see ROT.Scheduler#next
+ */
+ROT.Scheduler.Action.prototype.next = function() {
+	if (this._current && this._repeat.indexOf(this._current) != -1) {
+		this._queue.add(this._current, this._duration || this._defaultDuration);
+		this._duration = this._defaultDuration;
+	}
+	return ROT.Scheduler.prototype.next.call(this);
+}
+
+/**
+ * Set duration for the active item
+ */
+ROT.Scheduler.Action.prototype.setDuration = function(time) {
+	if (this._current) { this._duration = time; }
+	return this;
+}
+/**
+ * @class Asynchronous main loop
+ * @param {ROT.Scheduler} scheduler
+ */
+ROT.Engine = function(scheduler) {
+	this._scheduler = scheduler;
+	this._lock = 1;
+}
+
+/**
+ * Start the main loop. When this call returns, the loop is locked.
+ */
+ROT.Engine.prototype.start = function() {
+	return this.unlock();
+}
+
+/**
+ * Interrupt the engine by an asynchronous action
+ */
+ROT.Engine.prototype.lock = function() {
+	this._lock++;
+}
+
+/**
+ * Resume execution (paused by a previous lock)
+ */
+ROT.Engine.prototype.unlock = function() {
+	if (!this._lock) { throw new Error("Cannot unlock unlocked engine"); }
+	this._lock--;
+
+	while (!this._lock) {
+		var actor = this._scheduler.next();
+		if (!actor) { return this.lock(); } /* no actors */
+		actor.act();
+	}
+
+	return this;
 }
 /**
  * @class Base map generator
@@ -2060,7 +2248,7 @@ ROT.Map.Digger.prototype.create = function(callback) {
 		do {
 			featureAttempts++;
 			if (this._tryFeature(x, y, dir[0], dir[1])) { /* feature added */
-				if (this._rooms.length + this._corridors.length == 2) { this._rooms[0].addDoor(x, y); } /* first room oficially has doors */
+				//if (this._rooms.length + this._corridors.length == 2) { this._rooms[0].addDoor(x, y); } /* first room oficially has doors */
 				this._removeSurroundingWalls(x, y);
 				this._removeSurroundingWalls(x-dir[0], y-dir[1]);
 				break; 
@@ -2073,6 +2261,8 @@ ROT.Map.Digger.prototype.create = function(callback) {
 		}
 
 	} while (this._dug/area < this._options.dugPercentage || priorityWalls); /* fixme number of priority walls */
+
+	this._addDoors();
 
 	if (callback) {
 		for (var i=0;i<this._width;i++) {
@@ -2148,21 +2338,8 @@ ROT.Map.Digger.prototype._findWall = function() {
  * @returns {bool} was this a successful try?
  */
 ROT.Map.Digger.prototype._tryFeature = function(x, y, dx, dy) {
-	var feature = null;
-	var total = 0;
-	for (var p in this._features) { total += this._features[p]; }
-	var random = Math.floor(ROT.RNG.getUniform()*total);
-	
-	var sub = 0;
-	for (var p in this._features) {
-		sub += this._features[p];
-		if (random < sub) { 
-			feature = ROT.Map.Feature[p];
-			break; 
-		}
-	}
-	
-	feature = feature.createRandomAt(x, y, dx, dy, this._options);
+	var feature = ROT.RNG.getWeightedValue(this._features);
+	feature = ROT.Map.Feature[feature].createRandomAt(x, y, dx, dy, this._options);
 	
 	if (!feature.isValid(this._isWallCallback, this._canBeDugCallback)) {
 //		console.log("not valid");
@@ -2220,6 +2397,21 @@ ROT.Map.Digger.prototype._getDiggingDirection = function(cx, cy) {
 	if (!result) { return null; }
 	
 	return [-result[0], -result[1]];
+}
+
+/**
+ * Find empty spaces surrounding rooms, and apply doors.
+ */
+ROT.Map.Digger.prototype._addDoors = function() {
+	var data = this._map;
+	var isWallCallback = function(x, y) {
+		return (data[x][y] == 1);
+	}
+	for (var i = 0; i < this._rooms.length; i++ ) {
+		var room = this._rooms[i];
+		room.clearDoors();
+		room.addDoors(isWallCallback);
+	}
 }
 /**
  * @class Dungeon generator which tries to fill the space evenly. Generates independent rooms and tries to connect them.
@@ -2552,8 +2744,441 @@ ROT.Map.Uniform.prototype._canBeDugCallback = function(x, y) {
 }
 
 /**
- * @class
- * Dungeon feature; has own .create() method
+ * @author hyakugei
+ * @class Dungeon generator which uses the "orginal" Rogue dungeon generation algorithm. See http://kuoi.com/~kamikaze/GameDesign/art07_rogue_dungeon.php
+ * @augments ROT.Map
+ * @param {int} [width=ROT.DEFAULT_WIDTH]
+ * @param {int} [height=ROT.DEFAULT_HEIGHT]
+ * @param {object} [options] Options
+ * @param {int[]} [options.cellWidth=3] Number of cells to create on the horizontal (number of rooms horizontally)
+ * @param {int[]} [options.cellHeight=3] Number of cells to create on the vertical (number of rooms vertically) 
+ * @param {int} [options.roomWidth] Room min and max width - normally set auto-magically via the constructor.
+ * @param {int} [options.roomHeight] Room min and max height - normally set auto-magically via the constructor. 
+ */
+ROT.Map.Rogue = function(width, height, options) {
+	ROT.Map.call(this, width, height);
+	
+	this._options = {
+		cellWidth: 3,  // NOTE to self, these could probably work the same as the roomWidth/room Height values
+		cellHeight: 3  //     ie. as an array with min-max values for each direction....
+	}
+	
+	for (var p in options) { this._options[p] = options[p]; }
+	
+	/*
+	Set the room sizes according to the over-all width of the map, 
+	and the cell sizes. 
+	*/
+	
+	if (!this._options.hasOwnProperty("roomWidth")) {
+		this._options["roomWidth"] = this._calculateRoomSize(width, this._options["cellWidth"]);
+	}
+	if (!this._options.hasOwnProperty["roomHeight"]) {
+		this._options["roomHeight"] = this._calculateRoomSize(height, this._options["cellHeight"]);
+	}
+	
+}
+
+ROT.Map.Rogue.extend(ROT.Map); 
+
+/**
+ * @see ROT.Map#create
+ */
+ROT.Map.Rogue.prototype.create = function(callback) {
+	this.map = this._fillMap(1);
+	this.rooms = [];
+	this.connectedCells = [];
+	
+	this._initRooms();
+	this._connectRooms();
+	this._connectUnconnectedRooms();
+	this._createRandomRoomConnections();
+	this._createRooms();
+	this._createCorridors();
+	
+	if (callback) {
+		for (var i = 0; i < this._width; i++) {
+			for (var j = 0; j < this._height; j++) {
+				callback(i, j, this.map[i][j]);   
+			}
+		}
+	}
+	
+	return this;
+}
+
+ROT.Map.Rogue.prototype._getRandomInt = function(min, max) {
+	return Math.floor(ROT.RNG.getUniform() * (max - min + 1)) + min;
+}
+
+ROT.Map.Rogue.prototype._calculateRoomSize = function(size, cell) {
+	var max = Math.floor((size/cell) * 0.8);
+	var min = Math.floor((size/cell) * 0.25);
+	if (min < 2) min = 2;
+	if (max < 2) max = 2;
+	return [min, max];
+}
+
+ROT.Map.Rogue.prototype._initRooms = function () { 
+	// create rooms array. This is the "grid" list from the algo.  
+	for (var i = 0; i < this._options.cellWidth; i++) {  
+		this.rooms.push([]);
+		for(var j = 0; j < this._options.cellHeight; j++) {
+			this.rooms[i].push({"x":0, "y":0, "width":0, "height":0, "connections":[], "cellx":i, "celly":j});
+		}
+	}
+}
+
+ROT.Map.Rogue.prototype._connectRooms = function() {
+	//pick random starting grid
+	var cgx = this._getRandomInt(0, this._options.cellWidth-1);
+	var cgy = this._getRandomInt(0, this._options.cellHeight-1);
+	
+	var idx;
+	var ncgx;
+	var ncgy;
+	
+	var found = false;
+	var room;
+	var otherRoom;
+	
+	// find  unconnected neighbour cells
+	do {
+	
+		//var dirToCheck = [0,1,2,3,4,5,6,7];
+		var dirToCheck = [0,2,4,6];
+		dirToCheck = dirToCheck.randomize();
+		
+		do {
+			found = false;
+			idx = dirToCheck.pop();
+			
+			
+			ncgx = cgx + ROT.DIRS[8][idx][0];
+			ncgy = cgy + ROT.DIRS[8][idx][1];
+			
+			if(ncgx < 0 || ncgx >= this._options.cellWidth) continue;
+			if(ncgy < 0 || ncgy >= this._options.cellHeight) continue;
+			
+			room = this.rooms[cgx][cgy];
+			
+			if(room["connections"].length > 0)
+			{
+				// as long as this room doesn't already coonect to me, we are ok with it. 
+				if(room["connections"][0][0] == ncgx &&
+				room["connections"][0][1] == ncgy)
+				{
+					break;
+				}
+			}
+			
+			otherRoom = this.rooms[ncgx][ncgy];
+			
+			if (otherRoom["connections"].length == 0) { 
+				otherRoom["connections"].push([cgx,cgy]);
+				
+				this.connectedCells.push([ncgx, ncgy]);
+				cgx = ncgx;
+				cgy = ncgy;
+				found = true;
+			}
+					
+		} while (dirToCheck.length > 0 && found == false)
+		
+	} while (dirToCheck.length > 0)
+
+}
+
+ROT.Map.Rogue.prototype._connectUnconnectedRooms = function() {
+	//While there are unconnected rooms, try to connect them to a random connected neighbor 
+	//(if a room has no connected neighbors yet, just keep cycling, you'll fill out to it eventually).
+	var cw = this._options.cellWidth;
+	var ch = this._options.cellHeight;
+	
+	var randomConnectedCell;
+	this.connectedCells = this.connectedCells.randomize();
+	var room;
+	var otherRoom;
+	var validRoom;
+	
+	for (var i = 0; i < this._options.cellWidth; i++) {
+		for (var j = 0; j < this._options.cellHeight; j++)  {
+				
+			room = this.rooms[i][j];
+			
+			if (room["connections"].length == 0) {
+				var directions = [0,2,4,6];
+				directions = directions.randomize();
+				
+				var validRoom = false;
+				
+				do {
+					
+					var dirIdx = directions.pop();
+					var newI = i + ROT.DIRS[8][dirIdx][0];
+					var newJ = j + ROT.DIRS[8][dirIdx][1];
+					
+					if (newI < 0 || newI >= cw || 
+					newJ < 0 || newJ >= ch) {
+						continue;
+					}
+					
+					otherRoom = this.rooms[newI][newJ];
+					
+					validRoom = true;
+					
+					if (otherRoom["connections"].length == 0) {
+						break;
+					}
+					
+					for (var k = 0; k < otherRoom["connections"].length; k++) {
+						if(otherRoom["connections"][k][0] == i && 
+						otherRoom["connections"][k][1] == j) {
+							validRoom = false;
+							break;
+						}
+					}
+					
+					if (validRoom) break;
+					
+				} while (directions.length)
+				
+				if(validRoom) { 
+					room["connections"].push( [otherRoom["cellx"], otherRoom["celly"]] );  
+				} else {
+					console.log("-- Unable to connect room.");
+				}
+			}
+		}
+	}
+}
+
+ROT.Map.Rogue.prototype._createRandomRoomConnections = function(connections) {
+	// Empty for now. 
+}
+
+
+ROT.Map.Rogue.prototype._createRooms = function() {
+	// Create Rooms 
+	
+	var w = this._width;
+	var h = this._height;
+	
+	var cw = this._options.cellWidth;
+	var ch = this._options.cellHeight;
+	
+	var cwp = Math.floor(this._width / cw);
+	var chp = Math.floor(this._height / ch);
+	
+	var roomw;
+	var roomh;
+	var roomWidth = this._options["roomWidth"];
+	var roomHeight = this._options["roomHeight"];
+	var sx;
+	var sy;
+	var tx;
+	var ty;
+	var otherRoom;
+	
+	for (var i = 0; i < cw; i++) {
+		for (var j = 0; j < ch; j++) {
+			sx = cwp * i;
+			sy = chp * j;
+			
+			if (sx == 0) sx = 1;
+			if (sy == 0) sy = 1;
+			
+			roomw = this._getRandomInt(roomWidth[0], roomWidth[1]);
+			roomh = this._getRandomInt(roomHeight[0], roomHeight[1]);
+			
+			if (j > 0) {
+				otherRoom = this.rooms[i][j-1];
+				while (sy - (otherRoom["y"] + otherRoom["height"] ) < 3) {
+					sy++;
+				}
+			}
+			
+			if (i > 0) {
+				otherRoom = this.rooms[i-1][j];
+				while(sx - (otherRoom["x"] + otherRoom["width"]) < 3) {
+					sx++;
+				}
+			}
+						
+			var sxOffset = Math.round(this._getRandomInt(0, cwp-roomw)/2);
+			var syOffset = Math.round(this._getRandomInt(0, chp-roomh)/2);
+			
+			while (sx + sxOffset + roomw >= w) {
+				if(sxOffset) {
+					sxOffset--;
+				} else {
+					roomw--; 
+				}
+			}
+			
+			while (sy + syOffset + roomh >= h) { 
+				if(syOffset) {
+					syOffset--;
+				} else {
+					roomh--; 
+				}
+			}
+			
+			sx = sx + sxOffset;
+			sy = sy + syOffset;
+			
+			this.rooms[i][j]["x"] = sx;
+			this.rooms[i][j]["y"] = sy;
+			this.rooms[i][j]["width"] = roomw;
+			this.rooms[i][j]["height"] = roomh;  
+			
+			for (var ii = sx; ii < sx + roomw; ii++) {
+				for (var jj = sy; jj < sy + roomh; jj++) {
+					this.map[ii][jj] = 0;
+				}
+			}  
+		}
+	}
+}
+
+ROT.Map.Rogue.prototype._getWallPosition = function(aRoom, aDirection) {
+	var rx;
+	var ry;
+	var door;
+	
+	if (aDirection == 1 || aDirection == 3) {
+		rx = this._getRandomInt(aRoom["x"] + 1, aRoom["x"] + aRoom["width"] - 2);
+		if (aDirection == 1) {
+			ry = aRoom["y"] - 2;
+			door = ry + 1;
+		} else {
+			ry = aRoom["y"] + aRoom["height"] + 1;
+			door = ry -1;
+		}
+		
+		this.map[rx][door] = 0; // i'm not setting a specific 'door' tile value right now, just empty space. 
+		
+	} else if (aDirection == 2 || aDirection == 4) {
+		ry = this._getRandomInt(aRoom["y"] + 1, aRoom["y"] + aRoom["height"] - 2);
+		if(aDirection == 2) {
+			rx = aRoom["x"] + aRoom["width"] + 1;
+			door = rx - 1;
+		} else {
+			rx = aRoom["x"] - 2;
+			door = rx + 1;
+		}
+		
+		this.map[door][ry] = 0; // i'm not setting a specific 'door' tile value right now, just empty space. 
+		
+	}
+	return [rx, ry];
+}
+
+/***
+* @param startPosition a 2 element array
+* @param endPosition a 2 element array
+*/
+ROT.Map.Rogue.prototype._drawCorridore = function (startPosition, endPosition) {
+	var xOffset = endPosition[0] - startPosition[0];
+	var yOffset = endPosition[1] - startPosition[1];
+	
+	var xpos = startPosition[0];
+	var ypos = startPosition[1];
+	
+	var tempDist;
+	var xDir;
+	var yDir;
+	
+	var move; // 2 element array, element 0 is the direction, element 1 is the total value to move. 
+	var moves = []; // a list of 2 element arrays
+	
+	var xAbs = Math.abs(xOffset);
+	var yAbs = Math.abs(yOffset);
+	
+	var percent = ROT.RNG.getUniform(); // used to split the move at different places along the long axis
+	var firstHalf = percent;
+	var secondHalf = 1 - percent;
+	
+	xDir = xOffset > 0 ? 2 : 6;
+	yDir = yOffset > 0 ? 4 : 0;
+	
+	if (xAbs < yAbs) {
+		// move firstHalf of the y offset
+		tempDist = Math.ceil(yAbs * firstHalf);
+		moves.push([yDir, tempDist]);
+		// move all the x offset
+		moves.push([xDir, xAbs]);
+		// move sendHalf of the  y offset
+		tempDist = Math.floor(yAbs * secondHalf);
+		moves.push([yDir, tempDist]);
+	} else {
+		//  move firstHalf of the x offset
+		tempDist = Math.ceil(xAbs * firstHalf);
+		moves.push([xDir, tempDist]);
+		// move all the y offset
+		moves.push([yDir, yAbs]);
+		// move secondHalf of the x offset.
+		tempDist = Math.floor(xAbs * secondHalf);
+		moves.push([xDir, tempDist]);  
+	}
+	
+	this.map[xpos][ypos] = 0;
+	
+	while (moves.length > 0) {
+		move = moves.pop();
+		while (move[1] > 0) {
+			xpos += ROT.DIRS[8][move[0]][0];
+			ypos += ROT.DIRS[8][move[0]][1];
+			this.map[xpos][ypos] = 0;
+			move[1] = move[1] - 1;
+		}
+	}
+}
+
+ROT.Map.Rogue.prototype._createCorridors = function () {
+	// Draw Corridors between connected rooms
+	
+	var cw = this._options.cellWidth;
+	var ch = this._options.cellHeight;
+	var room;
+	var connection;
+	var otherRoom;
+	var wall;
+	var otherWall;
+	
+	for (var i = 0; i < cw; i++) {
+		for (var j = 0; j < ch; j++) {
+			room = this.rooms[i][j];
+			
+			for (var k = 0; k < room["connections"].length; k++) {
+					
+				connection = room["connections"][k]; 
+				
+				otherRoom = this.rooms[connection[0]][connection[1]];
+				
+				// figure out what wall our corridor will start one.
+				// figure out what wall our corridor will end on. 
+				if (otherRoom["cellx"] > room["cellx"] ) {
+					wall = 2;
+					otherWall = 4;
+				} else if (otherRoom["cellx"] < room["cellx"] ) {
+					wall = 4;
+					otherWall = 2;
+				} else if(otherRoom["celly"] > room["celly"]) {
+					wall = 3;
+					otherWall = 1;
+				} else if(otherRoom["celly"] < room["celly"]) {
+					wall = 1;
+					otherWall = 3;
+				}
+				
+				this._drawCorridore(this._getWallPosition(room, wall), this._getWallPosition(otherRoom, otherWall));
+			}
+		}
+	}
+}
+/**
+ * @class Dungeon feature; has own .create() method
  */
 ROT.Map.Feature = function() {}
 ROT.Map.Feature.prototype.isValid = function(canBeDugCallback) {}
@@ -2659,6 +3284,7 @@ ROT.Map.Feature.Room.createRandom = function(availWidth, availHeight, options) {
 
 ROT.Map.Feature.Room.prototype.addDoor = function(x, y) {
 	this._doors[x+","+y] = 1;
+	return this;
 }
 
 /**
@@ -2669,10 +3295,29 @@ ROT.Map.Feature.Room.prototype.getDoors = function(callback) {
 		var parts = key.split(",");
 		callback(parseInt(parts[0]), parseInt(parts[1]));
 	}
+	return this;
 }
 
 ROT.Map.Feature.Room.prototype.clearDoors = function() {
 	this._doors = {};
+	return this;
+}
+
+ROT.Map.Feature.Room.prototype.addDoors = function(isWallCallback) {
+	var left = this._x1-1;
+	var right = this._x2+1;
+	var top = this._y1-1;
+	var bottom = this._y2+1;
+
+	for (var x=left; x<=right; x++) {
+		for (var y=top; y<=bottom; y++) {
+			if (x != left && x != right && y != top && y != bottom) { continue; }
+			if (isWallCallback(x, y)) { continue; }
+
+			this.addDoor(x, y);
+		}
+	}
+
 	return this;
 }
 
@@ -2934,8 +3579,8 @@ ROT.Noise.Simplex.prototype.get = function(xin, yin) {
 
 	// Skew the input space to determine which simplex cell we're in
 	var s = (xin + yin) * this._F2; // Hairy factor for 2D
-	var i = ~~(xin + s);
-	var j = ~~(yin + s);
+	var i = Math.floor(xin + s);
+	var j = Math.floor(yin + s);
 	var t = (i + j) * G2;
 	var X0 = i - t; // Unskew the cell origin back to (x,y) space
 	var Y0 = j - t;
@@ -3909,6 +4554,18 @@ ROT.Path = function(toX, toY, passableCallback, options) {
 	for (var p in options) { this._options[p] = options[p]; }
 
 	this._dirs = ROT.DIRS[this._options.topology];
+	if (this._options.topology == 8) { /* reorder dirs for more aesthetic result (vertical/horizontal first) */
+		this._dirs = [
+			this._dirs[0],
+			this._dirs[2],
+			this._dirs[4],
+			this._dirs[6],
+			this._dirs[1],
+			this._dirs[3],
+			this._dirs[5],
+			this._dirs[7]
+		]
+	}
 }
 
 /**

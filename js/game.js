@@ -1,5 +1,6 @@
 var Game = {
-	engine: new ROT.Engine(),
+	engine: null,
+  scheduler: null,
 	player: null,
 	level: null,
 	story: null,
@@ -11,6 +12,9 @@ var Game = {
 	},
 	
 	init: function() {
+    this.scheduler = new ROT.Scheduler.Simple();
+    this.engine = new ROT.Engine(this.scheduler);
+    this.engine.start();
 		window.addEventListener("load", this);
 	},
 
@@ -49,7 +53,7 @@ var Game = {
 	
 		if (oldLevel) { /* clear the old level */
 			oldLevel.removeBeing(this.player);
-			this.engine.clear();
+			this.scheduler.clear();
 		}
 
 		this.level = newLevel;
@@ -57,7 +61,7 @@ var Game = {
 		/* welcome the new level */
 		newLevel.setBeing(this.player, position[0], position[1]);
 		for (var p in newLevel.beings) {
-			this.engine.addActor(newLevel.beings[p]);
+			this.scheduler.add(newLevel.beings[p], true);
 		}
 
 		this.level.checkRules();
