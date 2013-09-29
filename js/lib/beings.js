@@ -89,6 +89,17 @@ Game.Beings.define("rus", {
   weight: 0
 });
 
+Game.Beings.define("priest", {
+  extend: "humanoid",
+  tasks: [],
+  chats: ["You want to talk to the bride - and you brought her nothing? Shame on you!"],
+  sex: 1,
+  name: "priest",
+  color: [200, 30, 200]
+}, {
+  weight: 0
+});
+
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
 	tasks: ["talkToPlayer"],

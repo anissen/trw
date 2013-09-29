@@ -30,9 +30,9 @@
 	"sight": 12,
 	"portals": {
 		"castle": {
-			"level": "castle",
+			"level": "level1",
 			"cell": "from-chapel",
-			"direction": "north"
+			"direction": "fade"
 		}
 	},
 

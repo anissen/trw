@@ -2,7 +2,7 @@ Game.Cell.Door = function(type) {
 	Game.Cell.call(this, type);
 	this._closed = false;
 	this._locked = false;
-	this._name = "door";
+	this._name = "dør";
 	this.open();
 }
 Game.Cell.Door.extend(Game.Cell);
@@ -61,15 +61,15 @@ Game.Cell.Door.prototype.blocksMovement = function() {
 }
 
 Game.Cell.Door.prototype.describe = function() {
-	return (this._closed ? "closed" : "open") + " " + Game.Cell.prototype.describe.call(this);
+	return (this._closed ? "lukket" : "åben") + " " + Game.Cell.prototype.describe.call(this);
 }
 
 Game.Cell.Door.prototype.bumpInto = function(being) {
 	if (being == Game.player) { 
 		if (this._locked) {
-			Game.status.show("This %s is locked!", this._name); 
+			Game.status.show("Denne %s er låst!", this._name); 
 		} else {
-			Game.status.show("You open the %s.", this._name); 
+			Game.status.show("Du åbner %s.", this._name); 
 			this.open();
 		}
 	} else {

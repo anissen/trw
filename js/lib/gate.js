@@ -2,7 +2,7 @@ Game.Cell.Gate = function(type) {
 	Game.Cell.Door.call(this, type);
 
 	this._bumpedInto = false;
-	this._name = "castle gate";
+	this._name = "dør";
 	this.close();
 	this.lock();
 	
