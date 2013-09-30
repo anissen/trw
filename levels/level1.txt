@@ -25,18 +25,13 @@
                                 
 
 {
-	"level": "Game.Level.Castle",
+	"level": "Game.Level.Level1",
 	"light": [220, 220, 180],
 	"sight": 10,
 	"portals": {
-		"chapel": {
-			"level": "chapel",
+		"level2": {
+			"level": "level2",
 			"direction": "fade"
-		},
-		"forest": {
-			"level": "forest",
-			"direction": "west",
-			"cell": "from-castle"
 		}
 	},
   "r": {
@@ -247,7 +242,7 @@
 	"5": {
 		"cell": {
 			"type": "path",
-			"id": "chapel"
+			"id": "level2"
 		}
 	},
 	"6": {
@@ -259,7 +254,7 @@
 	"7": {
 		"cell": {
 			"type": "path",
-			"id": "from-chapel"
+			"id": "from-level2"
 		}
 	},
 	"|": {

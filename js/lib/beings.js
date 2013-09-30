@@ -1,3 +1,4 @@
+
 Game.Beings.define("player", {
 	extend: "humanoid",
 	pv: 2,
@@ -103,7 +104,7 @@ Game.Beings.define("priest", {
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
 	tasks: ["talkToPlayer"],
-	chats: ["blah blah"],
+	chats: ["Du må hjælpe os - KA$$ er forsvundet! Sidst jeg så hende, snakkede hun om et forsøg i kælderen under fysik. Hun mumlede noget om overmenneskelig styrke, grinede hysterisk og løb sin vej."],
 	sex: 2,
 	name: "SEKR",
 	color: [200, 30, 200]

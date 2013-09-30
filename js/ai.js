@@ -109,9 +109,9 @@ Game.AI.prototype._talkToPlayer = function() {
   if (dist > this._being.getSightRange()) { return false; }
 
   if (dist == 1) {
-    //this._being.attack(Game.player);
-    //alert('hello!');
     this._being.speak(Game.player);
+    this._being.setTasks(['slowwander']);
+    /*
     var tasks = this._being.getTasks();
     for (var i = 0; i < tasks.length; i++) {
       if (tasks[i] === 'talkToPlayer') {
@@ -120,6 +120,7 @@ Game.AI.prototype._talkToPlayer = function() {
         break;
       }
     }
+    */
     return true;
   }
 
@@ -144,30 +145,6 @@ Game.AI.prototype._talkToPlayer = function() {
   level.setBeing(this._being, pos[0], pos[1]);
 
   return true;
-  /*
-  var playerX = Game.player.getX();
-  var playerY = Game.player.getY();
-  var passableCallback = function(x, y) {
-    return ((x + ',' + y) in Game.map);
-  };
-  var astar = new ROT.Path.AStar(playerX, playerY, passableCallback, { topology: 4 });
-
-  var path = [];
-  var pathCallback = function(x, y) {
-    path.push([x, y]);
-  };
-  astar.compute(this._x, this._y, pathCallback);
-
-  if (path.length <= 3) {
-    Game.engine.lock();
-    alert('You have been captured by Pedro - Game over!');
-  } else {
-    Game.display.draw(this._x, this._y, Game.map[this._x + ',' + this._y]);
-    this._x = path[1][0];
-    this._y = path[1][1];
-    this._draw();
-  }
-  */
 }
 
 Game.AI.prototype._distance = function(x1, y1, x2, y2) {

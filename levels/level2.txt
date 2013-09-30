@@ -1,0 +1,129 @@
+
+###==######==##############==###
+#..............................#
+#..................@...........#
+#................#vv#..........#
+#................#..#..........#
+#................####..........#
+#..............................#
+#..............................#
+#..............................#
+#..............................#
+#..............................#
+################################
+                                
+
+{
+	"level": "Game.Level.Level2",
+	"light": [240, 240, 180],
+	"sight": 12,
+	"portals": {
+		"level1": {
+			"level": "level1",
+			"cell": "from-level2",
+			"direction": "fade"
+		}
+	},
+
+	"#": {
+		"cell": "stonewall"
+	},
+	".": {
+		"cell": "floor"
+	},
+	"-": {
+		"cell": "path"
+	},
+	"=": {
+		"cell": "grass"
+	},
+	"|": {
+		"cell": "bench"
+	},
+	"@": {
+		"cell": {
+			"type": "path",
+			"id": "start"
+		}
+	},
+	"+": {
+		"cell": "tombstone"
+	},
+	">": {
+		"cell": {
+			"type": "grass",
+			"id": "exit"
+		}
+	},
+	"±": {
+		"cell": "altar"
+	},
+	"/": {
+		"cell": {
+			"type": "door",
+			"closed": 0
+		}
+	},
+	"$": {
+		"cell": "grass",
+		"item": "secret-gold"
+	},
+	"w": {
+		"cell": {
+			"type": "window",
+			"color": [130, 100, 130],
+			"colorVariation": [50, 40, 50],
+			"name": "stained glass window"
+		}
+	},
+	"W": {
+		"cell": {
+			"type": "window",
+			"id": "window",
+			"color": [150, 120, 150],
+			"colorVariation": [50, 40, 50],
+			"name": "stained glass window"
+		}
+	},
+	"Y": {
+		"cell": {
+			"type": "statue",
+			"name": "religious statue",
+			"color": [180, 180, 180]
+		}
+	},
+	"g": {
+		"cell": "floor",
+		"being": "guest"
+	},
+	"B": {
+		"cell": "floor",
+		"being": "bride"
+	},
+	"G": {
+		"cell": "floor",
+		"being": "groom"
+	},
+	"P": {
+		"cell": "floor",
+		"being": "priest"
+	},
+	"v": {
+		"cell": {
+			"type": "path",
+			"id": "level1"
+		}
+	},
+	"2": {
+		"cell": {
+			"type": "floor",
+			"id": "bride"
+		}
+	},
+	"3": {
+		"cell": {
+			"type": "grass",
+			"id": "from-dungeon"
+		}
+	}
+}

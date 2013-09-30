@@ -1,4 +1,4 @@
-Game.Level.Chapel = function() {
+Game.Level.Level2 = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
@@ -9,9 +9,9 @@ Game.Level.Chapel = function() {
 	this._groom = null;
 	this._guests = [];
 }
-Game.Level.Chapel.extend(Game.Level);
+Game.Level.Level2.extend(Game.Level);
 
-Game.Level.Chapel.prototype.fromTemplate = function(map, def) {
+Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 	Game.Level.prototype.fromTemplate.call(this, map, def);
 	
 	for (var key in this.beings) {
@@ -26,14 +26,15 @@ Game.Level.Chapel.prototype.fromTemplate = function(map, def) {
 	return this;
 }
 
-Game.Level.Chapel.prototype._initStory = function() {
+Game.Level.Level2.prototype._initStory = function() {
 	this._addRule(function() {
 		return true;
 	}, function() {
-		Game.story.newChapter("I finally arrived at the chapel. By this time the wedding ceremony is probably already over, so I should at least get in and give my congratulations. I guess a lot of people are attending...");
+		Game.story.newChapter("I finally arrived at the Level2. By this time the wedding ceremony is probably already over, so I should at least get in and give my congratulations. I guess a lot of people are attending...");
 		return true; /* remove from rule list */
 	});
 
+  /*
 	this._addRule(function() {
 		return this._priest.chattedWith();
 	}, function() {
@@ -48,14 +49,14 @@ Game.Level.Chapel.prototype._initStory = function() {
 		return (weapon && weapon.getType() == "flower");
 	}, function() {
 		this._murderGroom();
-		Game.story.newChapter("I hear some unusual voices and screams from the chapel. What the hell is happening in there? I should investigate.");
+		Game.story.newChapter("I hear some unusual voices and screams from the Level2. What the hell is happening in there? I should investigate.");
 		return true;
 	});
 
 	this._addRule(function() {
 		return (Game.storyFlags.groomDead && this._priest.chattedWith());
 	}, function() {
-		Game.story.addChapter("I was away for only a few moments - and there was a crime committed, right next to the altar! The groom lies dead in a pool of blood; the assassin seems to have left the chapel through the window. I shall follow him.");
+		Game.story.addChapter("I was away for only a few moments - and there was a crime committed, right next to the altar! The groom lies dead in a pool of blood; the assassin seems to have left the Level2 through the window. I shall follow him.");
 		Game.story.setTask("Follow the murderer.");
 		return true;
 	});
@@ -79,9 +80,10 @@ Game.Level.Chapel.prototype._initStory = function() {
 		this.removeBeing(this._bride);
 		return true;
 	});
+*/
 }
 
-Game.Level.Chapel.prototype._murderGroom = function() {
+Game.Level.Level2.prototype._murderGroom = function() {
 	Game.storyFlags.groomDead = true;
 	var pos = this._groom.getPosition();
 	this._groom.die(); /* :-/ */
@@ -124,14 +126,14 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 		this.removeBeing(being);
 	}
 	this.setBeing(this._priest, x, y);
-	this._priest.setChats(["The groom is dead! His murderer jumped out of the chapel window; please try to follow him as fast as possible!"]);
+	this._priest.setChats(["The groom is dead! His murderer jumped out of the Level2 window; please try to follow him as fast as possible!"]);
 	
 	var pos = this.getCellById("bride").getPosition();
 	this.setBeing(this._bride, pos[0], pos[1]);
 
 }
 
-Game.Level.Chapel.prototype._welcomeBeing = function(being) {
+Game.Level.Level2.prototype._welcomeBeing = function(being) {
 	Game.Level.prototype._welcomeBeing.call(this, being);
 	if (being == Game.player) { being.setLight(this._playerLight); }
 }
