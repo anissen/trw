@@ -11,7 +11,15 @@ Game.Display.prototype.setCursor = function(x, y) {
 }
 
 Game.Display.prototype._draw = function(key, clearBefore) {
-	ROT.Display.prototype._draw.call(this, key, clearBefore);
+  /*
+  var pos = Game.player.getPosition();
+  var newX = parseInt(key.split(',')[0]) + pos[0];
+  var newY = parseInt(key.split(',')[1]) + pos[1];
+  var newKey = newX + ',' + newY;
+  if (!Game.level.cells[newKey] || !this._data[newKey]) return;
+	ROT.Display.prototype._draw.call(this, newKey, true);
+  */
+  ROT.Display.prototype._draw.call(this, key, clearBefore);
 	if (key == this._cursor) { 
 		var parts = this._cursor.split(",");
 		this._backend.drawCursor(parseInt(parts[0]), parseInt(parts[1]), this._data[key][3]); 

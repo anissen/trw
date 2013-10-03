@@ -1,17 +1,20 @@
 
-###==######==##############==###
-#..............................#
-#..................@...........#
-#................#vv#..........#
-#................#..#..........#
-#................####..........#
-#..............................#
-#..............................#
-#..............................#
-#..............................#
-#..............................#
-################################
-                                
+           #==##+#####==#
+           #............#
+           #.......7@...#
+           #......#vv#..#
+           #......#  #..#             ##=#
+           #..r...#  #..#             #..#
+           #......#  #..################.###
+#SSSSSSSS####.....####..#.O......../.......+
+#.........#.....h.........OH..r....#########
+=.........+.........................#
+#SSSSSSSS##.#####/###############=###
+          #.# #...#
+###########.# #...#
+=...........# #ww=#
+###=#####=###
+                              
 
 {
 	"level": "Game.Level.Level2",
@@ -24,21 +27,26 @@
 			"direction": "fade"
 		}
 	},
-
 	"#": {
 		"cell": "stonewall"
 	},
+  "S": {
+    "cell": {
+      "type": "stonewall",
+      "name": "skab",
+      "char": "S",
+      "color": [180, 180, 180],
+      "colorVariation": [50, 50, 50]
+    }
+  },
+  "7": {
+    "cell": {
+      "type": "floor",
+      "id": "from-level2"
+    }
+  },
 	".": {
 		"cell": "floor"
-	},
-	"-": {
-		"cell": "path"
-	},
-	"=": {
-		"cell": "grass"
-	},
-	"|": {
-		"cell": "bench"
 	},
 	"@": {
 		"cell": {
@@ -47,83 +55,55 @@
 		}
 	},
 	"+": {
-		"cell": "tombstone"
-	},
-	">": {
-		"cell": {
-			"type": "grass",
-			"id": "exit"
-		}
-	},
-	"±": {
-		"cell": "altar"
-	},
-	"/": {
-		"cell": {
-			"type": "door",
-			"closed": 0
-		}
-	},
-	"$": {
-		"cell": "grass",
-		"item": "secret-gold"
-	},
+    "cell": {
+      "type": "door",
+      "closed": 1
+    }
+  },
+  "/": {
+    "cell": {
+      "type": "door",
+      "closed": 0
+    }
+  },
+  "=": {
+    "cell": {
+      "type": "door",
+      "closed": 1,
+      "locked": 1
+    }
+  },
 	"w": {
 		"cell": {
 			"type": "window",
-			"color": [130, 100, 130],
-			"colorVariation": [50, 40, 50],
-			"name": "stained glass window"
+			"color": [220, 220, 220],
+			"name": "window"
 		}
 	},
-	"W": {
-		"cell": {
-			"type": "window",
-			"id": "window",
-			"color": [150, 120, 150],
-			"colorVariation": [50, 40, 50],
-			"name": "stained glass window"
-		}
-	},
-	"Y": {
-		"cell": {
-			"type": "statue",
-			"name": "religious statue",
-			"color": [180, 180, 180]
-		}
-	},
-	"g": {
-		"cell": "floor",
-		"being": "guest"
-	},
-	"B": {
-		"cell": "floor",
-		"being": "bride"
-	},
-	"G": {
-		"cell": "floor",
-		"being": "groom"
-	},
-	"P": {
-		"cell": "floor",
-		"being": "priest"
-	},
-	"v": {
-		"cell": {
-			"type": "path",
-			"id": "level1"
-		}
-	},
-	"2": {
-		"cell": {
-			"type": "floor",
-			"id": "bride"
-		}
-	},
-	"3": {
-		"cell": {
-			"type": "grass",
-			"id": "from-dungeon"
-		}
-	}
+  "v": {
+    "cell": {
+      "type": "floor",
+      "name": "stairs up",
+      "id": "level1"
+    }
+  },
+  "O": {
+    "cell": {
+      "type": "item",
+      "name": "table",
+      "char": "O"
+    }
+  },
+  "r": {
+    "cell": "floor",
+    "being": "rus"
+  },
+  "H": {
+    "cell": "floor",
+    "being": "hahn"
+  },
+  "h": {
+    "cell": "floor",
+    "being": "hænger"
+  }
 }
