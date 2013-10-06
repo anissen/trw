@@ -103,14 +103,14 @@ Game.Entity.prototype.describeA = function() {
 	if (!this._countable) { return this.describe(); }
 	var first = this._name.charAt(0);
 	if (first.match(/[aeiouy]/i)) {
-		return "an " + this.describe();
+		return "en/et " + this.describe();
 	} else {
-		return "a " + this.describe();
+		return "en/et " + this.describe();
 	}
 }
 
 Game.Entity.prototype.describeThe = function() {
-	return "the " + this.describe();
+	return this.describe() + '-en/-et';
 }
 
 Game.Entity.prototype.describe = function() {

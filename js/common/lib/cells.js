@@ -9,30 +9,30 @@ Game.Cells.define("item", {
   name: "???"
 });
 
-Game.Cells.define("stonewall", {
+Game.Cells.define("wall", {
 	blocksMovement: 1,
 	blocksLight: 1,
 	"char": "#",
 	//color: [80, 80, 80],
   color: [150, 110, 20],
 	colorVariation: 10,
-	name: "stone wall"
+	name: "mur"
 });
 
 Game.Cells.define("window", {
 	blocksMovement: 1,
-	blocksLight: 1,
+	blocksLight: 0,
 	"char": "=",
-	color: [100, 100, 200],
-	name: "window"
+	color: [80, 80, 80],
+	name: "vindue"
 });
 
 /* floor blocks */
 
 Game.Cells.define("floor", {
 	"char": ".",
-	color: [30, 30, 30],
-	name: "plain floor"
+	color: [40, 40, 40],
+	name: "gulv"
 });
 
 Game.Cells.define("ground", {

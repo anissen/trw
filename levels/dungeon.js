@@ -1,11 +1,12 @@
+
 Game.Level.Dungeon = function(depth, previousLevel, previousCell) {
 	Game.Level.call(this);
 	this._depth = depth;
 	this._maxDepth = 3;
-	this._gardener = null;
-	if (this._depth == this._maxDepth) { 
-		this._gardener = Game.Beings.create("gardener"); 
-		this._gardener.setChats(["Okay, so I murdered him. But it wasn't my idea! She promised me gold if I do it!"]);
+	this._KASS = null;
+  if (this._depth == this._maxDepth) { 
+    this._KASS = Game.Beings.create("KA$$"); 
+    this._KASS.setChats(["Okay, so I murdered him. But it wasn't my idea! She promised me gold if I do it!"]);
 	}
 	this._playerLight = [140, 110, 60];
 
@@ -58,7 +59,7 @@ Game.Level.Dungeon.prototype._buildStaircases = function(previousLevel, previous
 
 	var center = this._rooms[this._rooms.length-1].getCenter();
 	if (this._depth == this._maxDepth) {
-		this.setBeing(this._gardener, center[0], center[1]);
+		this.setBeing(this._KASS, center[0], center[1]);
 	} else {
 		var endCell = Game.Cells.create("staircase-down", {id: "exit"});
 		this.setCell(endCell, center[0], center[1]);
@@ -80,7 +81,7 @@ Game.Level.Dungeon.prototype._buildFromBitMap = function(bitMap, w, h) {
 				case 1:
 					var neighborCount = this._getNeighborCount(bitMap, i, j, 0);
 					if (neighborCount > 0) {
-						var wall = Game.Cells.create("stonewall");
+						var wall = Game.Cells.create("wall");
 						this.setCell(wall, i, j);
 					}
 				break;
@@ -158,14 +159,14 @@ Game.Level.Dungeon.prototype._initStory = function() {
 	if (this._depth == this._maxDepth) {
 
 		this._addRule(function() {
-			return this._gardener.chattedWith();
+			return this._KASS.chattedWith();
 		}, function() {
-			this._gardener.setHostile(true);
+			this._KASS.setHostile(true);
 			return true;
 		});
 
 		this._addRule(function() {
-			return !this._gardener.getHP();
+			return !this._KASS.getHP();
 		}, function() {
 			Game.storyFlags.gardenerDead = true;
 			Game.story.newChapter("The gardener lies dead. Looks like the groom is avenged now. But my task is far from being over: if the gardener spoke truth, there is someone else behind this - and I have a feeling that I know who.");

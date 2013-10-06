@@ -33,10 +33,10 @@ Game.Beings.define("jester", {
 	weight: 0
 });
 
-Game.Beings.define("gardener", {
+Game.Beings.define("KA$$", {
 	extend: "humanoid",
-	name: "gardener",
-	sex: 1,
+	name: "KA$$",
+	sex: 2,
 	hp: 3,
 	speed: 115,
 	damage: 3,

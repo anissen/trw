@@ -26,7 +26,7 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
   
   this._portals["dungeon"] = {
     level: dungeon,
-    direction: "fade"
+    direction: "north"
   };
 	
 	this._initStory();
