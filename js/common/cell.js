@@ -29,7 +29,7 @@ Game.Cell.prototype.setTotalLight = function(light) {
 }
 
 Game.Cell.prototype.bumpInto = function(being) {
-	if (being == Game.player) { Game.status.show("%A blocks the way.", this); }
+	if (being == Game.player) { Game.status.show("%A blokerer vejen.", this); }
 }
 
 Game.Cell.prototype.blocksLight = function() {

@@ -195,7 +195,7 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("%The %{verb,miss} %the.".format(this, this, target));
+		Game.status.show("%The %{verb,misser} %the.".format(this, this, target));
 		return; 
 	}
 
@@ -214,26 +214,26 @@ Game.Being.prototype.attack = function(target) {
 	/* 2b. damage */
 //	console.log("dmg dealt", dmg);
 	target.adjustHP(-dmg);	
-	var str = "%The %{verb,hit} %the".format(this, this, target);
+	var str = "%The %{verb,slår} %the".format(this, this, target);
 	var ratio = target.getHP() / target.getMaxHP();
 	if (ratio > 0) {
 		var types = ["slightly", "moderately", "severly", "critically"].reverse();
 		var type = types[Math.ceil(ratio*types.length)-1];
-		str += " and %s %{verb,wound} %him.".format(type, this, target);
+		str += " og %s %{verb,skader} %him.".format(type, this, target);
 	} else {
 		this._kills++;
-		str += " and %{verb,kill} %him.".format(this, target);
+		str += " og %{verb,dræber} %him.".format(this, target);
 	}
 	Game.status.show(str);
 }
 
 Game.Being.prototype.die = function() {
 	if (!this._level.items[this._position.join(",")]) { 
-		var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" corpse"});
+		var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" lig"});
 		this._level.setItem(corpse, this._position[0], this._position[1]);
 	}
 	this._level.removeBeing(this);
-	Game.engine.removeActor(this);
+	Game.scheduler.remove(this);
 	return this;
 }
 

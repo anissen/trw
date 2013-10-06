@@ -39,7 +39,7 @@ Game.Story.prototype.addChapter = function(text) {
 }
 
 Game.Story.prototype.setTask = function(task) {
-	var node = this._buildNode("Task: " + task);
+	var node = this._buildNode("Opgave: " + task);
 	this._tasks[this._tasks.length-1] = node;
 
 	if (this._index+1 != this._chapters.length) { this._showChapter(this._chapters.length-1); }

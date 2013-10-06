@@ -8,7 +8,7 @@ Game.Level.Level2 = function() {
 	this._bride = null;
 	this._groom = null;
 	this._guests = [];
-}
+};
 Game.Level.Level2.extend(Game.Level);
 
 Game.Level.Level2.prototype.fromTemplate = function(map, def) {
@@ -21,6 +21,13 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 		if (being.getType() == "bride") { this._bride = being; }
 		if (being.getType() == "groom") { this._groom = being; }
 	}
+
+  var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
+  
+  this._portals["dungeon"] = {
+    level: dungeon,
+    direction: "fade"
+  };
 	
 	this._initStory();
 	return this;

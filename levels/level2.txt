@@ -1,4 +1,7 @@
 
+               #>#
+               #3#
+               #.#
            #==##+#####==#
            #............#
            #.......7@...#
@@ -43,6 +46,20 @@
     "cell": {
       "type": "floor",
       "id": "from-level2"
+    }
+  },
+  ">": {
+    "cell": {
+      "type": "door",
+      "name": "til kælderen...",
+      "closed": 1,
+      "id": "dungeon"
+    }
+  },
+  "3": {
+    "cell": {
+      "type": "floor",
+      "id": "from-dungeon"
     }
   },
 	".": {
