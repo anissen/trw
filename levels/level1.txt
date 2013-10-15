@@ -16,9 +16,8 @@ W.W..@..#  #..w     #=#
               #.....+..+.#  #KK#
               #.....#..######.##
               #..OO.#..#S.....D#
-              #..OO.#..#S.....D#
               #..OO.#..#S..Oh..#
-              #.....#../...Oh.Bw
+              #..OO.#../...Oh.Bw
               #.....#..#S.....Bw
               #######..#S.....B#
                     #=W###TTT###
@@ -56,26 +55,8 @@ W.W..@..#  #..w     #=#
       "char": "B"
     }
   },
-	"\\": {
-		"cell": {
-			"type": "wall",
-			"id": "secretdoor"
-		}
-	},
 	".": {
 		"cell": "floor"
-	},
-	"_": {
-		"cell": "ground"
-	},
-	"-": {
-		"cell": "floor"
-	},
-	"b": {
-		"cell": {
-			"type": "pier",
-			"name": "bridge"
-		}
 	},
 	"=": {
 		"cell": {
@@ -83,14 +64,6 @@ W.W..@..#  #..w     #=#
       "closed": 1,
       "locked": 1
     }
-	},
-	"$": {
-		"cell": "grass",
-		"item": "secret-gold"
-	},
-	"f": {
-		"cell": "grass",
-		"item": "flower"
 	},
 	"w": {
     "cell": {

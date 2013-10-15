@@ -3,11 +3,6 @@ Game.Level.Level2 = function() {
 
 	this._lighting.setOptions({range:8});
 	this._playerLight = [30, 30, 30];
-
-	this._priest = null;
-	this._bride = null;
-	this._groom = null;
-	this._guests = [];
 };
 Game.Level.Level2.extend(Game.Level);
 
@@ -16,10 +11,6 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 	
 	for (var key in this.beings) {
 		var being = this.beings[key];
-		if (being.getType() == "guest") { this._guests.push(being); }
-		if (being.getType() == "priest") { this._priest = being; }
-		if (being.getType() == "bride") { this._bride = being; }
-		if (being.getType() == "groom") { this._groom = being; }
 	}
 
   var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
@@ -37,7 +28,7 @@ Game.Level.Level2.prototype._initStory = function() {
 	this._addRule(function() {
 		return true;
 	}, function() {
-		Game.story.newChapter("I finally arrived at the Level2. By this time the wedding ceremony is probably already over, so I should at least get in and give my congratulations. I guess a lot of people are attending...");
+		Game.story.newChapter("Sikke en larm indefra kantinen...");
 		return true; /* remove from rule list */
 	});
 
@@ -88,57 +79,7 @@ Game.Level.Level2.prototype._initStory = function() {
 		return true;
 	});
 */
-}
-
-Game.Level.Level2.prototype._murderGroom = function() {
-	Game.storyFlags.groomDead = true;
-	var pos = this._groom.getPosition();
-	this._groom.die(); /* :-/ */
-	
-	for (var i=0;i<ROT.DIRS[8].length;i++) {
-		var x = pos[0] + ROT.DIRS[8][i][0];
-		var y = pos[1] + ROT.DIRS[8][i][1];
-		var cell = this.cells[x+","+y];
-		if (cell.getType() == "floor" && ROT.RNG.getUniform() > 0.5) {
-			this.setCell(Game.Cells.create("blood"), x, y);
-		}
-	}
-	
-	var pos = this.getCellById("window").getPosition();
-	this.setCell(Game.Cells.create("floor"), pos[0], pos[1]);
-	
-	var pos = this.getCellById("exit").getPosition();
-	var staircase = Game.Cells.create("staircase-down", {id:"dungeon", name:"to the dungeon"});
-	this.setCell(staircase, pos[0], pos[1]);
-	
-	var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
-	
-	this._portals["dungeon"] = {
-		level: dungeon,
-		direction: "fade"
-	};
-	
-	for (var i=0;i<this._guests.length;i++) {
-		var guest = this._guests[i];
-		guest.setTasks(["wander"]);
-		guest.setChats(["Have you seen it? The groom has been stabbed!", "They say that the groom has been murdered!", "A hooded figure suddenly appeared and killed the groom!", "Oh my god oh my god!", "He jumped out right through that window!"]);
-	}
-	
-	var pos = this._priest.getPosition();
-	var x = pos[0]-2;
-	var y = pos[1];
-	var being = this.beings[x+","+y];
-	if (being) {
-		Game.engine.removeActor(being);
-		this.removeBeing(being);
-	}
-	this.setBeing(this._priest, x, y);
-	this._priest.setChats(["The groom is dead! His murderer jumped out of the Level2 window; please try to follow him as fast as possible!"]);
-	
-	var pos = this.getCellById("bride").getPosition();
-	this.setBeing(this._bride, pos[0], pos[1]);
-
-}
+};
 
 Game.Level.Level2.prototype._welcomeBeing = function(being) {
 	Game.Level.prototype._welcomeBeing.call(this, being);

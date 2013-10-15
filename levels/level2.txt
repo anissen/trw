@@ -92,9 +92,7 @@
   },
 	"w": {
 		"cell": {
-			"type": "window",
-			"color": [220, 220, 220],
-			"name": "window"
+			"type": "window"
 		}
 	},
   "v": {

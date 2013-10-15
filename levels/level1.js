@@ -5,11 +5,7 @@ Game.Level.Level1 = function() {
 	this._playerLight = [30, 30, 30];
 	
 	this._gates = [];
-	this._guards = [];
-  this._jester = null;
 	this._sekr = null;
-	this._gardener = null;
-	this._rats = [];
 }
 Game.Level.Level1.extend(Game.Level);
 
@@ -23,10 +19,6 @@ Game.Level.Level1.prototype.fromTemplate = function(map, def) {
 
 	for (var key in this.beings) {
 		var being = this.beings[key];
-		if (being.getType() == "guard") { this._guards.push(being); }
-		if (being.getType() == "jester") { this._jester = being; }
-		if (being.getType() == "rat") { this._rats.push(being); }
-    if (being.getType() == "gardener") { this._gardener = being; }
 		if (being.getType() == "SEKR") { this._sekr = being; }
 	}
 
