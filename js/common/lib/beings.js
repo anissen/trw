@@ -15,35 +15,35 @@ Game.Beings.define("humanoid", {
 
 Game.Beings.define("dog", {
 	extend: "animal",
-	name: "dog",
+	name: "grævling",
 	hp: 2,
 	color: [204, 204, 102],
-	"char": "d"
+	"char": "g"
 });
 
 Game.Beings.define("rat", {
 	extend: "animal",
 	speed: 105,
-	name: "rat",
+	name: "rotte",
 	color: [160, 160, 160],
 	"char": "r"
 });
 
 Game.Beings.define("bat", {
 	extend: "animal",
-	name: "large bat",
+	name: "stor flagremus",
 	color: [160, 120, 30],
 	"char": "B"
 });
 
 Game.Beings.define("mugger", {
 	extend: "humanoid",
-	name: "mugger",
+	name: "gal videnskabsmand",
 	color: [160, 100, 100],
 	chats: [
-		"Help the poor!",
-		"Have some spare gold?",
-		"I am so hungry."
+		"Enden er nær!",
+		"Jeg dræber jer alle!",
+		"Jeg får min hævn, bare vent!"
 	]
 }, {
 	weight: 0
@@ -51,7 +51,7 @@ Game.Beings.define("mugger", {
 
 Game.Beings.define("orc", {
 	"char": "o",
-	name: "orc",
+	name: "ork",
 	hp: 3,
 	damage: 2,
 	extend: "humanoid",
@@ -59,8 +59,8 @@ Game.Beings.define("orc", {
 });
 
 Game.Beings.define("goblin", {
-	"char": "g",
-	name: "goblin",
+	"char": "t",
+	name: "trold",
 	hp: 2,
 	damage: 2,
 	extend: "humanoid",
@@ -78,7 +78,7 @@ Game.Beings.define("kobold", {
 
 Game.Beings.define("orc chieftain", {
 	extend: "orc",
-	name: "orc chieftain",
+	name: "stor ork",
 	hp: 4,
 	speed: 105,
 	pv: 2,
@@ -90,7 +90,7 @@ Game.Beings.define("orc chieftain", {
 
 Game.Beings.define("goblin chieftain", {
 	extend: "goblin",
-	name: "goblin chieftain",
+	name: "stor trold",
 	hp: 5,
 	speed: 110,
 	pv: 2,
@@ -108,7 +108,7 @@ Game.Beings.define("undead", {
 
 Game.Beings.define("skeleton", {
 	extend: "undead",
-	name: "skeleton",
+	name: "skelet",
 	hp: 2,
 	damage: 2,
 	speed: 100,

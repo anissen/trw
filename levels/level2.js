@@ -3,6 +3,8 @@ Game.Level.Level2 = function() {
 
 	this._lighting.setOptions({range:8});
 	this._playerLight = [30, 30, 30];
+
+  this._hahn = null;
 };
 Game.Level.Level2.extend(Game.Level);
 
@@ -11,6 +13,7 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 	
 	for (var key in this.beings) {
 		var being = this.beings[key];
+    if (being.getType() === 'hahn') this._hahn = being;
 	}
 
   var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
@@ -31,6 +34,15 @@ Game.Level.Level2.prototype._initStory = function() {
 		Game.story.newChapter("Sikke en larm indefra kantinen...");
 		return true; /* remove from rule list */
 	});
+
+  this._addRule(function() {
+    return this._hahn.chattedWith();
+  }, function() {
+    Game.story.addChapter("Hmm, det blev jeg ikke meget klogere af...");
+    Game.story.setTask("Find en der IKKE mumler!");
+    Game.storyFlags.blah = 1;
+    return true;
+  });
 
   /*
 	this._addRule(function() {
