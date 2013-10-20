@@ -109,6 +109,7 @@ Game.Beings.define("undead", {
 Game.Beings.define("skeleton", {
 	extend: "undead",
 	name: "skelet",
+  wordEnding: "et",
 	hp: 2,
 	damage: 2,
 	speed: 100,

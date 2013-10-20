@@ -67,9 +67,9 @@ Game.Cell.Door.prototype.describe = function() {
 Game.Cell.Door.prototype.bumpInto = function(being) {
 	if (being == Game.player) { 
 		if (this._locked) {
-			Game.status.show("Denne %s er låst!", this._name); 
+			Game.status.show("%s er låst!", this.describeNameUpperCase()); 
 		} else {
-			Game.status.show("Du åbner %s.", this._name); 
+			Game.status.show("Du åbner %s.", this.describeName()); 
 			this.open();
 		}
 	} else {

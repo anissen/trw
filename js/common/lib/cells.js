@@ -24,7 +24,8 @@ Game.Cells.define("window", {
 	blocksLight: 0,
 	"char": "=",
 	color: [80, 80, 80],
-	name: "vindue"
+	name: "vindue",
+  wordEnding: "et"
 });
 
 /* floor blocks */
@@ -32,7 +33,8 @@ Game.Cells.define("window", {
 Game.Cells.define("floor", {
 	"char": ".",
 	color: [40, 40, 40],
-	name: "gulv"
+	name: "gulv",
+  wordEnding: "et"
 });
 
 Game.Cells.define("ground", {

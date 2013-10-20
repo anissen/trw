@@ -13,6 +13,7 @@ Game.Beings.define("player", {
 Game.Beings.define("KA$$", {
 	extend: "humanoid",
 	name: "KA$$",
+  wordEnding: "",
 	sex: 2,
 	hp: 3,
 	speed: 115,
@@ -52,6 +53,7 @@ Game.Beings.define("hahn", {
   tasks: ["slowwander"],
   chats: ["Mmmm vi mmmmm en øl mm mm mmmmm en øl?", "Mmmm vi lege mmmm eller mmmmm?", "Mmmm eller mmmmm?", "Mmmm mm mmm mm tre-bombe?"],
   name: "Hahn",
+  wordEnding: "",
   sex: [1],
   color: [40, 150, 200],
   colorVariation: [30, 30, 30]
@@ -65,6 +67,7 @@ Game.Beings.define("SEKR", {
 	chats: ["Du må hjælpe os - KA$$ er forsvundet! Sidst jeg så hende, snakkede hun om et forsøg i kælderen under fysik. Hun mumlede noget om overmenneskelig styrke, grinede hysterisk og løb sin vej."],
 	sex: 2,
 	name: "SEKR",
+  wordEnding: "",
 	color: [200, 30, 200]
 }, {
 	weight: 0
