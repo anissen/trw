@@ -37,6 +37,7 @@
     "cell": {
       "type": "wall",
       "name": "skab",
+      "wordEnding": "et",
       "char": "S",
       "color": [180, 180, 180],
       "colorVariation": [50, 50, 50]

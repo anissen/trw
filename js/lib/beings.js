@@ -64,7 +64,7 @@ Game.Beings.define("hahn", {
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
 	tasks: ["talkToPlayer"],
-	chats: ["Du må hjælpe os - KA$$ er forsvundet! Sidst jeg så hende, snakkede hun om et forsøg i kælderen under fysik. Hun mumlede noget om overmenneskelig styrke, grinede hysterisk og løb sin vej."],
+	chats: ["Du må hjælpe os, den er helt gal med KA$$!<br/><br/>Hun vrøvlede om en portal til en anden dimension og om en hær af onde FU'er. Så grinede hun hysterisk og løb ned i kælderen under fysik.<br/><br/>Og hun virkede næsten <i>ædru</i>!"],
 	sex: 2,
 	name: "SEKR",
   wordEnding: "",

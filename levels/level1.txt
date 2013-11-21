@@ -52,6 +52,7 @@ W.W..@..#  #..w     #=#
     "cell": {
       "type": "item",
       "name": "Bænken",
+      "wordEnding": "",
       "char": "B"
     }
   },
@@ -82,6 +83,7 @@ W.W..@..#  #..w     #=#
 		"cell": {
       "type": "wall",
       "name": "Tavlen",
+      "wordEnding": "",
       "char": "#",
       "color": [235, 235, 235]
     }
@@ -89,7 +91,8 @@ W.W..@..#  #..w     #=#
   "O": {
     "cell": {
       "type": "item",
-      "name": "table",
+      "name": "bord",
+      "wordEnding": "et",
       "char": "O"
     }
   },
@@ -97,6 +100,7 @@ W.W..@..#  #..w     #=#
     "cell": {
       "type": "wall",
       "name": "skab",
+      "wordEnding": "et",
       "char": "S",
       "color": [180, 180, 180],
       "colorVariation": [50, 50, 50]
