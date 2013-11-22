@@ -39,7 +39,7 @@ Game.Level.Level1.prototype._initStory = function() {
   }, function() {
     Game.story.newChapter("KA$$ opfører sig tilsyneladende endnu mere mærkeligt end sædvanligt.<br/><br/>Jeg har lovet SEKR at undersøge hvor hun er blevet af...");
     Game.story.setTask("Gå ned i kælderen under fysik.");
-    Game.storyFlags.wantsFlower = 1;
+    Game.storyFlags.talkedToSEKR = 1;
     return true;
   });
 };

@@ -61,6 +61,19 @@ Game.Beings.define("hahn", {
   weight: 0
 });
 
+Game.Beings.define("CERM", {
+  extend: "humanoid",
+  tasks: ["slowwander"],
+  chats: ["Hvad synes du om bandet?"],
+  name: "CERM",
+  wordEnding: "",
+  sex: [2],
+  color: [140, 50, 200],
+  colorVariation: [30, 30, 30]
+}, {
+  weight: 0
+});
+
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
 	tasks: ["talkToPlayer"],
