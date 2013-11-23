@@ -39,7 +39,7 @@ Game.Beings.define("rus", {
 Game.Beings.define("hænger", {
   extend: "humanoid",
   tasks: ["slowwander"],
-  chats: ["Der stod " + (Math.floor(Math.random() * 40)) + " GD på det bord...", "Hvorfor er der så mange russer?", "Tak for sidst", "Det sagde hun også i går!", "Skal du med i baren og ha' shots?"],
+  chats: ["Der stod " + (Math.floor(Math.random() * 20)) + " GD på det bord...", "Hvorfor er der så mange russer?", "Tak for sidst", "Det sagde hun også i går!", "Skal du med i baren og ha' shots?"],
   name: "Hænger",
   sex: [1, 2],
   color: [140, 140, 140],

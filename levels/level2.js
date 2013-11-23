@@ -36,17 +36,10 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 };
 
 Game.Level.Level2.prototype._initStory = function() {
-	this._addRule(function() {
-		return true;
-	}, function() {
-		Game.story.newChapter("Sikke en larm indefra kantinen...");
-		return true; /* remove from rule list */
-	});
-
   this._addRule(function() {
     return Game.storyFlags.findKey && this._hahn.chattedWith();
   }, function() {
-    Game.story.addChapter("Hmm, det blev jeg ikke meget klogere af...");
+    Game.story.addChapter("* Snakkede med Hahn. Det blev jeg ikke meget klogere af...");
     Game.story.setTask("Få fat i nøglen til kælderen under fysik. Start med at finde en person der IKKE mumler!");
     return true;
   });
@@ -54,7 +47,7 @@ Game.Level.Level2.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.talkedToSEKR && this._doorToDungeon.bumpedInto();
   }, function() {
-    Game.story.addChapter("Døren er låst. Jeg må finde en måde at komme igennem.");
+    Game.story.newChapter("Døren til kælderen under fysik er låst. Jeg må finde en måde at komme igennem.");
     Game.story.setTask("Få fat i nøglen til kælderen under fysik");
     Game.storyFlags.findKey = 1;
     this._CERM.setChats(["Nølgen til kælderen under fysik? Den har fOrm. Jeg så ham sidst på kammeret."]);
@@ -66,7 +59,7 @@ Game.Level.Level2.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.findKey && this._CERM.chattedWith();
   }, function() {
-    Game.story.addChapter("fOrm har nøglen!");
+    Game.story.addChapter("* CERM siger at fOrm har nøglen!");
     Game.story.setTask("Led efter fOrm på kammeret");
     Game.storyFlags.findFORM = 1;
     return true;
