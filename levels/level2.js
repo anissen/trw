@@ -37,7 +37,7 @@ Game.Level.Level2.prototype.fromTemplate = function(map, def) {
 
 Game.Level.Level2.prototype._initStory = function() {
   this._addRule(function() {
-    return Game.storyFlags.findKey && this._hahn.chattedWith();
+    return Game.storyFlags.findKey && !Game.storyFlags.findFORM && this._hahn.chattedWith();
   }, function() {
     Game.story.addChapter("* Snakkede med Hahn. Det blev jeg ikke meget klogere af...");
     Game.story.setTask("Få fat i nøglen til kælderen under fysik. Start med at finde en person der IKKE mumler!");

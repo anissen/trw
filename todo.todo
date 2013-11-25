@@ -8,5 +8,23 @@ TODO's:
 
 --- ✄ -----------------------
 
+Story:
+    ✔ SEKR -> Find KA$$. Go to cellar door. @done (24-11-13 17:41)
+    ✔ Cellar door -> Find key. @done (24-11-13 17:41)
+    ✔ CERM -> fOrm has key. Go to TK. @done (24-11-13 17:41)
+    ☐ TK -> fOrm has locked himself in his cabinet. Find NF to get the spare key.
+    ☐ NF (where?) -> Hands over key. Go to TK. Release FORM. Get key from FORM. Go to cellar.
+    ☐ Cellar level 1 -> Shuts down portal. Return to FORM to report. Get weapons, amour and potions.
+	☐ Weapons: Kvitten
+	☐ Amour: Garderoben
+	☐ Potions: Køleskabet/vending machines
+	☐ Idea:
+	    ☐ Improved weapons in Husaren (hint: CERM)
+	    ☐ Improved amour in cabinets at downstars garderobe (hint: live-rollespiller-rus)
+	    ☐ Improved potions in kølerummet (hint: VC)
+    ☐ KA$$ knocked out. Return to FORM for reward.
+
+--- ✄ -----------------------
+
 Notes:
     Ascii map editor: http://letterbrush.com/
