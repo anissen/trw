@@ -6,6 +6,8 @@ Game.Cell = function(type) {
 
 	this._totalLight = null; /* computed light */
 	this._portal = null;
+
+	this._bumpedInto = false;
 }
 Game.Cell.extend(Game.Entity);
 
@@ -26,11 +28,18 @@ Game.Cell.prototype.getTotalLight = function() {
 Game.Cell.prototype.setTotalLight = function(light) {
 	this._totalLight = light;
 	return this;
-}
+};
 
 Game.Cell.prototype.bumpInto = function(being) {
-	if (being == Game.player) { Game.status.show("%A blokerer vejen.", this); }
-}
+	if (being == Game.player) {
+		this._bumpedInto = true;
+		Game.status.show("%A blokerer vejen.", this); 
+	}
+};
+
+Game.Cell.prototype.bumpedInto = function() {
+	return this._bumpedInto;
+};
 
 Game.Cell.prototype.blocksLight = function() {
 	return this._blocksLight;

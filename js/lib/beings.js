@@ -18,10 +18,22 @@ Game.Beings.define("KA$$", {
 	hp: 3,
 	speed: 115,
 	damage: 3,
-	chats: ["Good day to you, sir!", "Watch these flowers blossom!", "This garden needs my attention."],
+	chats: ['Død ved kølle!'],
 	color: [100, 240, 100],
 }, {
 	weight: 0
+});
+
+Game.Beings.define("FORM", {
+  extend: "humanoid",
+  tasks: ["slowwander"],
+  chats: ["På Tavlen!"],
+  name: "fOrm",
+  wordEnding: "dumme",
+  sex: [1],
+  color: [100, 240, 100]
+}, {
+  weight: 0
 });
 
 Game.Beings.define("rus", {

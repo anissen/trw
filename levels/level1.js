@@ -5,7 +5,10 @@ Game.Level.Level1 = function() {
 	this._playerLight = [30, 30, 30];
 	
 	this._gates = [];
-	this._sekr = null;
+	this._SEKR = null;
+  this._FORM = null;
+  this._FORMCabinet = null;
+  this._FORMAppearsCell = null;
 };
 Game.Level.Level1.extend(Game.Level);
 
@@ -14,12 +17,15 @@ Game.Level.Level1.prototype.fromTemplate = function(map, def) {
 	
 	for (var cellKey in this.cells) {
 		var cell = this.cells[cellKey];
-		if (cell.getType() == "gate") { this._gates.push(cell); }
+    if (cell.getType() == "gate") { this._gates.push(cell); }
+    if (cell.getId() == "form-skab") { this._FORMCabinet = cell; }
+    if (cell.getId()) console.log(cell.getId());
+		if (cell.getId() == "form-appears") { console.log('hurray'); this._FORMAppearsCell = cell; }
 	}
 
 	for (var beingKey in this.beings) {
 		var being = this.beings[beingKey];
-		if (being.getType() == "SEKR") { this._sekr = being; }
+    if (being.getType() == "SEKR") { this._SEKR = being; }
 	}
 
 	this._initStory();
@@ -31,15 +37,28 @@ Game.Level.Level1.prototype._initStory = function() {
     return true;
   }, function() {
     Game.story.newChapter("TÅGEKAMMERET holder fest og der er fulde russer ud over det hele.");
-    return true; /* remove from rule list */
+    return true;
   });
 
   this._addRule(function() {
-    return this._sekr.chattedWith();
+    return this._SEKR.chattedWith();
   }, function() {
     Game.story.newChapter("KA$$ opfører sig tilsyneladende endnu mere mærkeligt end sædvanligt.<br/><br/>Jeg har lovet SEKR at undersøge hvor hun er blevet af...");
     Game.story.setTask("Gå ned i kælderen under fysik.");
     Game.storyFlags.talkedToSEKR = 1;
+    this._SEKR.setChats(['Pleeeease find KA$$! Jeg er så dårlig til at lave regnskaber...', 'Har du fundet hende endnu?']);
+    return true;
+  });
+
+  this._addRule(function() {
+    return Game.storyFlags.findFORM && this._FORMCabinet.bumpedInto();
+  }, function() {
+    Game.story.addChapter("FORM is free!");
+    this._FORM = Game.Beings.create('FORM');
+    var FORMAppearsCellPos = this._FORMAppearsCell.getPosition();
+    this.setBeing(this._FORM, FORMAppearsCellPos[0], FORMAppearsCellPos[1]);
+    Game.scheduler.add(this._FORM, true);
+    Game.status.show("fOrm: I HAVE RETURNED! *ahem* Tak fordi du lukkede mig ud. Jeg ville gerne være kommet ud af skabet... men det var låst.");
     return true;
   });
 };

@@ -19,7 +19,7 @@ W.W..@..#  #..w     #=#
               #..OO.#..#S..Oh..#
               #..OO.#../...Oh.Bw
               #.....#..#S.....Bw
-              #######..#S.....B#
+              #######..#F.f...B#
                     #=W###TTT###
                                 
 
@@ -40,6 +40,12 @@ W.W..@..#  #..w     #=#
   "s": {
     "cell": "floor",
     "being": "SEKR"
+  },
+  "f": {
+    "cell": {
+      "type": "floor",
+     "id": "form-appears"
+    }
   },
   "h": {
     "cell": "floor",
@@ -104,6 +110,17 @@ W.W..@..#  #..w     #=#
       "char": "S",
       "color": [180, 180, 180],
       "colorVariation": [50, 50, 50]
+    }
+  },
+  "F": {
+    "cell": {
+      "type": "wall",
+      "name": "fOrm-skab",
+      "wordEnding": "et",
+      "char": "S",
+      "color": [180, 180, 180],
+      "colorVariation": [50, 50, 50],
+      "id": "form-skab"
     }
   },
   "v": {

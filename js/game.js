@@ -40,8 +40,8 @@ var Game = {
 		level.setBeing(this.player, 1, 1);
 		Game.switchLevel(level, null, "fade");
 		
-		this.story.newChapter("I am dead! What the hell? How could this ever happen? My mission is over and I will have to start again. Darn!");
-		this.story.setTask("Reload the page to start a new game.");
+		this.story.newChapter("Jeg døde :(");
+		this.story.setTask("Genindlæs siden for at prøve igen...");
 	},
 
 	switchLevel: function(newLevel, cell, direction) {
