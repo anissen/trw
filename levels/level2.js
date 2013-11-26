@@ -51,6 +51,7 @@ Game.Level.Level2.prototype._initStory = function() {
     Game.story.setTask("Få fat i nøglen til kælderen under fysik");
     Game.storyFlags.findKey = 1;
     this._CERM.setChats(["Nølgen til kælderen under fysik? Den har fOrm. Jeg så ham sidst på kammeret."]);
+    this._doorToDungeon._bumpedInto = false; // HACK
     this._hahn._chattedWith = false; // HACK
     this._CERM._chattedWith = false; // HACK
     return true;
@@ -61,7 +62,19 @@ Game.Level.Level2.prototype._initStory = function() {
   }, function() {
     Game.story.addChapter("* CERM siger at fOrm har nøglen!");
     Game.story.setTask("Led efter fOrm på kammeret");
+
+    this._doorToDungeon._bumpedInto = false; // HACK
+
+    delete Game.storyFlags.findKey;
     Game.storyFlags.findFORM = 1;
+    return true;
+  });
+
+  this._addRule(function() {
+    return Game.storyFlags.goToCellar && this._doorToDungeon.bumpingInto();
+  }, function() {
+    Game.status.show("Det var den rigtige nøgle. <i>Endelig</i>!");
+    this._doorToDungeon.unlock();
     return true;
   });
 

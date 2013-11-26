@@ -86,6 +86,19 @@ Game.Beings.define("CERM", {
   weight: 0
 });
 
+Game.Beings.define("NF", {
+  extend: "humanoid",
+  tasks: [],
+  chats: ["... og så den med anden, der gik over vejen... nej, det duer ikke.", "... og så skriver jeg, at din mor er så tyk at... nej, den har jeg allerede brugt.", "... og så en tegning af fOrm der dummer sig", "... og så noget med at humaniora er fjollet...", "... men så er det ANDEN, der har propelhatten på!", "... og så skriver man bare ADAM her i hjørnet, og så er det også sjovt for de gamle hængere", "... og så sagde vi gerne, at det var mig, som at der vandt <i>Den Dræbende Fløde</i>", "... og så en joke om et irrationelt tal", "... og så tegning af en sok"],
+  name: "NF",
+  wordEnding: "",
+  sex: [1],
+  color: [40, 50, 200],
+  colorVariation: [30, 30, 30]
+}, {
+  weight: 0
+});
+
 Game.Beings.define("SEKR", {
 	extend: "humanoid",
 	tasks: ["talkToPlayer"],

@@ -16,10 +16,10 @@ W.W..@..#  #..w     #=#
               #.....+..+.#  #KK#
               #.....#..######.##
               #..OO.#..#S.....D#
-              #..OO.#..#S..Oh..#
+              #.nOO.#..#S..Oh..#
               #..OO.#../...Oh.Bw
               #.....#..#S.....Bw
-              #######..#F.f...B#
+              #######..#Ff9...B#
                     #=W###TTT###
                                 
 
@@ -41,10 +41,20 @@ W.W..@..#  #..w     #=#
     "cell": "floor",
     "being": "SEKR"
   },
+  "n": {
+    "cell": "floor",
+    "being": "NF"
+  },
   "f": {
     "cell": {
       "type": "floor",
      "id": "form-appears"
+    }
+  },
+  "9": {
+    "cell": {
+      "type": "floor",
+      "id": "move-here-when-form-appears"
     }
   },
   "h": {
