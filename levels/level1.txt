@@ -17,7 +17,7 @@ W.W..@..#  #..w     #=#
               #.....#..######.##
               #..OO.#..#S.....D#
               #.nOO.#..#S..Oh..#
-              #..OO.#../...Oh.Bw
+              #..OO.#../.x.Oh.Bw
               #.....#..#S.....Bw
               #######..#Ff9...B#
                     #=W###TTT###
@@ -55,6 +55,12 @@ W.W..@..#  #..w     #=#
     "cell": {
       "type": "floor",
       "id": "move-here-when-form-appears"
+    }
+  },
+  "x": {
+    "cell": {
+      "type": "floor",
+      "id": "tk-entrance"
     }
   },
   "h": {
@@ -215,10 +221,6 @@ W.W..@..#  #..w     #=#
 			"light": [100, 80, 30],
 			"color": [200, 160, 60]
 		}
-	},
-	"x": {
-		"cell": "floor",
-		"item": "dagger"
 	},
 	"y": {
 		"cell": "floor",

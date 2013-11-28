@@ -12,8 +12,8 @@ Story:
     ✔ SEKR -> Find KA$$. Go to cellar door. @done (24-11-13 17:41)
     ✔ Cellar door -> Find key. @done (24-11-13 17:41)
     ✔ CERM -> fOrm has key. Go to TK. @done (24-11-13 17:41)
-    ☐ TK -> fOrm has locked himself in his cabinet. Find NF to get the spare key.
-    ☐ NF (where?) -> Hands over key. Go to TK. Release FORM. Get key from FORM. Go to cellar.
+    ✔ TK -> fOrm has locked himself in his cabinet. Find NF to get the spare key. @done (28-11-13 15:50)
+    ✔ NF -> Hands over key. Go to TK. Release FORM. Get key from FORM. Go to cellar. @done (28-11-13 15:50)
     ☐ Cellar level 1 -> Shuts down portal. Return to FORM to report. Get weapons, amour and potions.
 	☐ Weapons: Kvitten
 	☐ Amour: Garderoben

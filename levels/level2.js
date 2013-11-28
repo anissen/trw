@@ -71,7 +71,7 @@ Game.Level.Level2.prototype._initStory = function() {
   });
 
   this._addRule(function() {
-    return Game.storyFlags.goToCellar && this._doorToDungeon.bumpingInto();
+    return Game.storyFlags.goToCellar && this._doorToDungeon.bumpedInto();
   }, function() {
     Game.status.show("Det var den rigtige nøgle. <i>Endelig</i>!");
     this._doorToDungeon.unlock();

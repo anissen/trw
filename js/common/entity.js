@@ -97,6 +97,10 @@ Game.Entity.prototype.getPosition = function() {
   return this._position;
 };
 
+Game.Entity.prototype.isAtPosition = function(pos) {
+  return (this._position[0] === pos[0] && this._position[1] === pos[1]);
+}
+
 Game.Entity.prototype.getLevel = function() {
   return this._level;
 };

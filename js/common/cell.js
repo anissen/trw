@@ -8,7 +8,6 @@ Game.Cell = function(type) {
 	this._portal = null;
 
 	this._bumpedInto = false;
-	this._bumpingInto = false;
 }
 Game.Cell.extend(Game.Entity);
 
@@ -32,20 +31,14 @@ Game.Cell.prototype.setTotalLight = function(light) {
 };
 
 Game.Cell.prototype.bumpInto = function(being) {
-	this._bumpingInto = false;
 	if (being == Game.player) {
 		this._bumpedInto = true;
-		this._bumpingInto = true;
 		Game.status.show("%A blokerer vejen.", this); 
 	}
 };
 
 Game.Cell.prototype.bumpedInto = function() {
 	return this._bumpedInto;
-};
-
-Game.Cell.prototype.bumpingInto = function() {
-	return this._bumpingInto;
 };
 
 Game.Cell.prototype.blocksLight = function() {

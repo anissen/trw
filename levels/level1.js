@@ -10,7 +10,8 @@ Game.Level.Level1 = function() {
   this._FORM = null;
   this._FORMCabinet = null;
   this._FORMAppearsCell = null;
-  this._moveHereWhenFORMAppears = null;
+  this._moveHereWhenFORMAppearsCell = null;
+  this._TKEntranceCell = null;
 };
 Game.Level.Level1.extend(Game.Level);
 
@@ -19,10 +20,12 @@ Game.Level.Level1.prototype.fromTemplate = function(map, def) {
 	
 	for (var cellKey in this.cells) {
 		var cell = this.cells[cellKey];
+    console.log(cell.getId());
     if (cell.getType() == "gate") { this._gates.push(cell); }
     if (cell.getId() == "form-skab") { this._FORMCabinet = cell; }
     if (cell.getId() == "form-appears") { this._FORMAppearsCell = cell; }
-		if (cell.getId() == "move-here-when-form-appears") { this._moveHereWhenFORMAppears = cell; }
+    if (cell.getId() == "move-here-when-form-appears") { this._moveHereWhenFORMAppearsCell = cell; }
+		if (cell.getId() == "tk-entrance") { this._TKEntranceCell = cell; }
 	}
 
 	for (var beingKey in this.beings) {
@@ -54,9 +57,16 @@ Game.Level.Level1.prototype._initStory = function() {
   });
 
   this._addRule(function() {
-    return Game.storyFlags.findFORM && this._FORMCabinet.bumpedInto();
+    return Game.storyFlags.findFORM && Game.player.isAtPosition(this._TKEntranceCell.getPosition());
   }, function() {
-    Game.status.show('fOrm siger: "<i>Hallå</i>! Ka\' du hør\' mig? Jeg ved ik\' hvo\'rn, men jeg har fået låst mig selv inde i skabet. Få fat i reservenøglen - NF har\'en - og kom å luk mig ud!"');
+    Game.status.show('fOrm siger: "<i>Hallå</i>! Ka\' du hør\' mig? Herovre, i skabet!"');
+    return false;
+  });
+
+  this._addRule(function() {
+    return Game.storyFlags.findFORM && this._FORMCabinet.bumpedInto() && !Game.storyFlags.releaseFORM;
+  }, function() {
+    Game.status.show('fOrm siger: "Jeg ved ik\' hvo\'rn, men jeg har fået låst mig selv inde i skabet. Få fat i reservenøglen - NF har\'en - og kom å luk mig ud!"');
 
     Game.story.addChapter("Dumme fOrm har låst sig selv inde i skabet... <i>suk</i>");
     Game.story.setTask("Find NF og få reservenøglen til fOrm-skabet");
@@ -69,7 +79,7 @@ Game.Level.Level1.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.findNF && this._NF.chattedWith();
   }, function() {
-    Game.status.show('... "Årh, har fOrm nu låst sig inde i skabet <i>igen</i>? Jeg tror, at VC har reservenøglen...<br/><br/>... nej vent, den er lige her!"');
+    Game.status.show('... "Årh, har fOrm nu låst sig inde i skabet <i>igen</i>? Jeg tror, at VC har reservenøglen...<br/><br/>... nej vent, den er lige her! Vær\'sgo"');
     Game.story.addChapter("Jeg har reservenøglen til fOrm-skabet!");
     Game.story.setTask("Befri fOrm");
     delete Game.storyFlags.findNF;
@@ -81,7 +91,7 @@ Game.Level.Level1.prototype._initStory = function() {
     return Game.storyFlags.releaseFORM && this._FORMCabinet.bumpedInto();
   }, function() {
     Game.story.addChapter("FORM is free!");
-    var moveHerePos = this._moveHereWhenFORMAppears.getPosition();
+    var moveHerePos = this._moveHereWhenFORMAppearsCell.getPosition();
     this.setBeing(Game.player, moveHerePos[0], moveHerePos[1]);
 
     this._FORM = Game.Beings.create('FORM');
@@ -90,9 +100,17 @@ Game.Level.Level1.prototype._initStory = function() {
     Game.scheduler.add(this._FORM, true);
 
     Game.status.show('Dumme fOrm siger: "<i>Jæs</i>!, endelig er jeg kommet ud af skabet!"');
-    Game.story.setTask("Gå ned i kælderen under fysik");
 
     delete Game.storyFlags.releaseFORM;
+    Game.storyFlags.formReleased = 1;
+    return true;
+  });
+
+  this._addRule(function() {
+    return Game.storyFlags.formReleased && this._FORM.chattedWith();
+  }, function() {
+    Game.status.show('Dumme fOrm siger: "Tak fordi du lukkede mig ud. Her er nøglen til kælderen under fysik. Pas på du ikke kommer til at låse dig selv inde dernede."');
+    Game.story.setTask("Gå ned i kælderen under fysik");
     Game.storyFlags.goToCellar = 1;
     return true;
   });

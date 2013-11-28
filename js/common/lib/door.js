@@ -2,6 +2,7 @@ Game.Cell.Door = function(type) {
 	Game.Cell.call(this, type);
 	this._closed = false;
 	this._locked = false;
+	this._bumpingInto = false;
 	this._name = "dør";
 	this.open();
 }
@@ -65,7 +66,9 @@ Game.Cell.Door.prototype.describe = function() {
 }
 
 Game.Cell.Door.prototype.bumpInto = function(being) {
-	if (being == Game.player) { 
+	this._bumpingInto = false;
+	if (being === Game.player) {
+		this._bumpingInto = true;
 		if (this._locked) {
 			Game.status.show("%s er låst!", this.describeNameUpperCase()); 
 		} else {
@@ -76,3 +79,8 @@ Game.Cell.Door.prototype.bumpInto = function(being) {
 		if (!this._locked) { this.open(); }
 	}
 }
+
+Game.Cell.prototype.bumpingInto = function() {
+	return this._bumpingInto;
+};
+
