@@ -5,15 +5,15 @@ Game.Item.Food.extend(Game.Item);
 
 Game.Item.Food.prototype.eat = function(being) {
 	/* FIXME cheating, shall format properly */
-	Game.status.show("You eat %the.", this);
+	Game.status.show("Du spiser %the.", this);
 	if (being.getHP() == being.getMaxHP()) { 
-		Game.status.show("Tasty.");
+		Game.status.show("Mmm!");
 	} else {
 		being.adjustHP(2);
 		if (being.getHP() == being.getMaxHP()) {
-			Game.status.show("Tastes very good: you are fully healed.");
+			Game.status.show("Det smager meget godt: Du er ved fuldt helbred.");
 		} else {
-			Game.status.show("Tastes good: you are partially healed.");
+			Game.status.show("Det smager godt: Du er ved bedre helbred.");
 		}
 	}
 }

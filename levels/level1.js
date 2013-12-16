@@ -20,7 +20,7 @@ Game.Level.Level1.prototype.fromTemplate = function(map, def) {
 	
 	for (var cellKey in this.cells) {
 		var cell = this.cells[cellKey];
-    console.log(cell.getId());
+    //console.log(cell.getId());
     if (cell.getType() == "gate") { this._gates.push(cell); }
     if (cell.getId() == "form-skab") { this._FORMCabinet = cell; }
     if (cell.getId() == "form-appears") { this._FORMAppearsCell = cell; }
@@ -90,7 +90,7 @@ Game.Level.Level1.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.releaseFORM && this._FORMCabinet.bumpedInto();
   }, function() {
-    Game.story.addChapter("FORM is free!");
+    Game.story.addChapter("fOrm er kommet ud af skabet!");
     var moveHerePos = this._moveHereWhenFORMAppearsCell.getPosition();
     this.setBeing(Game.player, moveHerePos[0], moveHerePos[1]);
 

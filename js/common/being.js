@@ -122,7 +122,7 @@ Game.Being.prototype.chat = function(being) {
 	if (this._chats) {
 		response = "%He svarer: \"%s\"".format(this, this._chats.random());
 	} else {
-		response = "Ingen svar."
+		response = "Intet svar."
 	}
 	Game.status.show(response);
 	
@@ -195,7 +195,7 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("%The %{verb,misser} %the.".format(this, this, target));
+		Game.status.show("%The misser %the.".format(this, target));
 		return; 
 	}
 
@@ -207,22 +207,22 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 2a. not enough damage */
 	if (dmg <= 0) {
-		Game.status.show("%The %{verb,fail} to hurt %the.".format(this, this, target));
+		Game.status.show("%The skader %the ikke.".format(this, target));
 		return;
 	}
 
 	/* 2b. damage */
 //	console.log("dmg dealt", dmg);
 	target.adjustHP(-dmg);	
-	var str = "%The %{verb,slår} %the".format(this, this, target);
+	var str = "%The rammer %the".format(this, target);
 	var ratio = target.getHP() / target.getMaxHP();
 	if (ratio > 0) {
-		var types = ["slightly", "moderately", "severly", "critically"].reverse();
+		var types = ["lidt", "moderat", "svært", "kritisk"].reverse();
 		var type = types[Math.ceil(ratio*types.length)-1];
-		str += " og %s %{verb,skader} %him.".format(type, this, target);
+		str += " og skader %him %s.".format(target, type);
 	} else {
 		this._kills++;
-		str += " og %{verb,dræber} %him.".format(this, target);
+		str += " og dræber %him.".format(target);
 	}
 	Game.status.show(str);
 }

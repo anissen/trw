@@ -39,7 +39,7 @@ Game.Level.Level2.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.findKey && !Game.storyFlags.findFORM && this._hahn.chattedWith();
   }, function() {
-    Game.story.addChapter("* Snakkede med Hahn. Det blev jeg ikke meget klogere af...");
+    // Game.story.addChapter("Snakkede med Hahn. Det blev jeg ikke meget klogere af...");
     Game.story.setTask("Få fat i nøglen til kælderen under fysik. Start med at finde en person der IKKE mumler!");
     return true;
   });
@@ -60,7 +60,7 @@ Game.Level.Level2.prototype._initStory = function() {
   this._addRule(function() {
     return Game.storyFlags.findKey && this._CERM.chattedWith();
   }, function() {
-    Game.story.addChapter("* CERM siger at fOrm har nøglen!");
+    Game.story.addChapter("CERM siger at fOrm har nøglen!");
     Game.story.setTask("Led efter fOrm på kammeret");
 
     this._doorToDungeon._bumpedInto = false; // HACK
@@ -77,54 +77,6 @@ Game.Level.Level2.prototype._initStory = function() {
     this._doorToDungeon.unlock();
     return true;
   });
-
-  /*
-	this._addRule(function() {
-		return this._priest.chattedWith();
-	}, function() {
-		Game.story.addChapter("Indeed, it would be polite to bring some gift to the bride. I was in a hurry, so I brought nothing. Fortunately, I noticed some beautifully blossoming flowers in the castle garden.");
-		Game.story.setTask("Get back to castle garden and bring a flower.");
-		Game.storyFlags.wantsFlower = 1;
-		return true;
-	});
-
-	this._addRule(function() {
-		var weapon = Game.player.getWeapon();
-		return (weapon && weapon.getType() == "flower");
-	}, function() {
-		this._murderGroom();
-		Game.story.newChapter("I hear some unusual voices and screams from the Level2. What the hell is happening in there? I should investigate.");
-		return true;
-	});
-
-	this._addRule(function() {
-		return (Game.storyFlags.groomDead && this._priest.chattedWith());
-	}, function() {
-		Game.story.addChapter("I was away for only a few moments - and there was a crime committed, right next to the altar! The groom lies dead in a pool of blood; the assassin seems to have left the Level2 through the window. I shall follow him.");
-		Game.story.setTask("Follow the murderer.");
-		return true;
-	});
-
-	this._addRule(function() {
-		return Game.storyFlags.gardenerDead;
-	}, function() {
-		for (var key in this.cells) {
-			var cell = this.cells[key];
-			if (cell.getType() != "tombstone" || ROT.RNG.getUniform() > 0.3) { continue; }
-			var undead = Game.Beings.createRandom({include:"undead"}).setHostile(true);
-			var dir = Math.floor(ROT.RNG.getUniform()*8);
-			var x = cell.getPosition()[0] + ROT.DIRS[8][dir][0];
-			var y = cell.getPosition()[1] + ROT.DIRS[8][dir][1];
-			this.setBeing(undead, x, y);
-			Game.engine.addActor(undead);
-		}
-		this._priest.setChats(["You are looking for the bride? She went back to the castle. She was apparently in a hurry, strange."]);
-		
-		Game.engine.removeActor(this._bride);
-		this.removeBeing(this._bride);
-		return true;
-	});
-*/
 };
 
 Game.Level.Level2.prototype._welcomeBeing = function(being) {

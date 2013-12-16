@@ -5,15 +5,15 @@ Game.Item.HealingPotion.extend(Game.Item);
 
 Game.Item.HealingPotion.prototype.drink = function(being) {
 	/* FIXME cheating, shall format properly */
-	Game.status.show("You drink %the.", this);
+	Game.status.show("Du drikker %the.", this);
 	if (being.getHP() == being.getMaxHP()) { 
-		Game.status.show("Nothing happens (you are already fully healed).");
+		Game.status.show("Der sker ikke noget.");
 	} else {
 		being.adjustHP(4);
 		if (being.getHP() == being.getMaxHP()) {
-			Game.status.show("You are fully healed.");
+			Game.status.show("Du er ved fuldt helbred.");
 		} else {
-			Game.status.show("You are partially healed.");
+			Game.status.show("Du er bedre helbred.");
 		}
 	}
 }

@@ -150,7 +150,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
     this._addRule(function() {
       return true;
     }, function() {
-      Game.story.newChapter("Puh, det er uhyggeligt!");
+      Game.story.newChapter("Puh, det er uhyggeligt hernede!");
       Game.story.setTask("Find KA$$");
       return true; /* remove from rule list */
     });

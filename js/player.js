@@ -4,7 +4,7 @@ Game.Player = function(type) {
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 
-	this._name = "you";
+	this._name = "dig";
 	
 	this._secretGold = 0;
 	this._gold = 0;
@@ -163,14 +163,14 @@ Game.Player.prototype._pickItem = function(x, y) {
 	if (type == "secret-gold") {
 		this._level.removeItem(item);
 		this._secretGold++;
-		Game.status.show("Du samler en %a op.", item);
+		Game.status.show("Du samler %a op.", item);
 		return;
 	} 
 
 	if (type == "gold") {
 		this._level.removeItem(item);
 		this._gold++;
-		Game.status.show("Du samler en %a op.", item);
+		Game.status.show("Du samler %a op.", item);
 		return;
 	} 
 
@@ -189,7 +189,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 	if (Game.Items.is(type, "gem")) {
 		this._level.removeItem(item);
 		this._gems++;
-		Game.status.show("Du samler en %a op.", item);
+		Game.status.show("Du samler %a op.", item);
 		return;
 	} 
 
@@ -200,7 +200,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 			this._level.setItem(this._weapon, x, y);
 			Game.status.show("Du smider %a og samler %a op.", this._weapon, item);
 		} else {
-			Game.status.show("Du samler en %a op.", item);
+			Game.status.show("Du samler %a op.", item);
 		}
 		this._weapon = item;
 		var description = item.getDescription();
@@ -220,13 +220,13 @@ Game.Player.prototype._pickItem = function(x, y) {
 			this._level.setItem(this._armor, x, y);
 			Game.status.show("Du smider %a og samler en %a op.", this._armor, item);
 		} else {
-			Game.status.show("Du samler en %a op.", item);
+			Game.status.show("Du samler %a op.", item);
 		}
 		this._armor = item;
 		var description = item.getDescription();
 		if (this._knownTypes.indexOf(type) == -1 && description) {
 			this._knownTypes.push(type);
-			Game.status.show("%The is %s armor.".format(item, description));
+			Game.status.show("%The er %s beskyttelse.".format(item, description));
 		}
 
 		this._updateStats();
@@ -265,7 +265,7 @@ Game.Player.prototype.describeThe = function() {
 }
 
 Game.Player.prototype.describeHim = function() {
-	return "you";
+	return "dig";
 }
 
 Game.Player.prototype._victory = function(being) {

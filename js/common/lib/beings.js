@@ -68,8 +68,8 @@ Game.Beings.define("goblin", {
 });
 
 Game.Beings.define("kobold", {
-	"char": "k",
-	name: "kobold",
+	"char": "m",
+	name: "mumie",
 	hp: 2,
 	damage: 2,
 	extend: "humanoid",

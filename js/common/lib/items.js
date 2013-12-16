@@ -3,11 +3,12 @@ Game.Items = new Game.Repository(Game.Item);
 Game.Items.define("gold", {
 	"char": "$",
 	color: [255, 255, 30],
-	name: "piece of gold"
+	name: "20'er"
 });
 
 Game.Items.define("corpse", {
-	"char": "%"
+	"char": "%",
+	wordEnding: "et"
 }, {
 	weight: 0
 });
@@ -24,8 +25,8 @@ Game.Items.define("weapon", {
 
 Game.Items.define("dagger", {
 	extend: "weapon",
-	name: "dagger",
-	description: "a fast and light",
+	name: "daggert",
+	description: "et let og hurtigt",
 	color: [150, 80, 80],
 	speed: 160,
 	damage: 3
@@ -33,8 +34,8 @@ Game.Items.define("dagger", {
 
 Game.Items.define("sword", {
 	extend: "weapon",
-	name: "sword",
-	description: "an all-round",
+	name: "sværd",
+	description: "et all-round",
 	color: [150, 150, 150],
 	speed: 130,
 	damage: 4
@@ -42,8 +43,8 @@ Game.Items.define("sword", {
 
 Game.Items.define("axe", {
 	extend: "weapon",
-	name: "axe",
-	description: "a slow and hard-hitting",
+	name: "økse",
+	description: "et langsomt men hårdt-slående",
 	color: [150, 150, 100],
 	speed: 100,
 	damage: 5
@@ -61,8 +62,8 @@ Game.Items.define("armor", {
 
 Game.Items.define("leather-armor", {
 	extend: "armor",
-	name: "leather armor",
-	description: "a basic and light",
+	name: "læderjakke",
+	description: "en basal og let (og moderigtig)",
 	color: [150, 80, 30],
 	speed: 100,
 	pv: 1
@@ -70,8 +71,8 @@ Game.Items.define("leather-armor", {
 
 Game.Items.define("chain-mail", {
 	extend: "armor",
-	name: "chain mail",
-	description: "strong yet wearable",
+	name: "ringbrynje",
+	description: "holdbart og til at bære",
 	color: [150, 150, 150],
 	speed: 80,
 	pv: 2
@@ -79,8 +80,8 @@ Game.Items.define("chain-mail", {
 
 Game.Items.define("plate-mail", {
 	extend: "armor",
-	name: "plate mail",
-	description: "a very heavy but resistant",
+	name: "pladerustning",
+	description: "en meget tung men resistent",
 	color: [180, 180, 200],
 	speed: 50,
 	pv: 3
@@ -96,19 +97,19 @@ Game.Items.define("gem", {
 
 Game.Items.define("ruby", {
 	extend: "gem",
-	name: "ruby",
+	name: "rubin",
 	color: [255, 30, 30]
 });
 
 Game.Items.define("sapphire", {
 	extend: "gem",
-	name: "sapphire",
+	name: "safir",
 	color: [30, 30, 255]
 });
 
 Game.Items.define("diamond", {
 	extend: "gem",
-	name: "diamond",
+	name: "diamand",
 	color: [255, 255, 255]
 });
 
@@ -120,7 +121,7 @@ Game.Items.define("opal", {
 
 Game.Items.define("turquoise", {
 	extend: "gem",
-	name: "turquoise",
+	name: "smaragd",
 	color: [50, 200, 200]
 });
 
@@ -136,7 +137,7 @@ Game.Items.define("healing-potion", {
 	extend: "potion",
 	ctor: Game.Item.HealingPotion,
 	color: [240, 30, 30],
-	name: "healing potion"
+	name: "Ceres Top"
 });
 
 /* FOOD */
@@ -151,17 +152,17 @@ Game.Items.define("food", {
 Game.Items.define("apple", {
 	extend: "food",
 	color: [80, 240, 30],
-	name: "apple"
+	name: "trøffel"
 });
 
 Game.Items.define("iron-ration", {
 	extend: "food",
 	color: [180, 100, 30],
-	name: "iron ration"
+	name: "Snickers"
 });
 
 Game.Items.define("lutefisk", {
 	extend: "food",
 	color: [160, 160, 220],
-	name: "lutefisk"
+	name: "Mat.Kant.-delle"
 });
