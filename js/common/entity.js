@@ -111,7 +111,8 @@ Game.Entity.prototype.describeA = function() {
 };
 
 Game.Entity.prototype.describeThe = function() {
-  return this.describe() + this._wordEnding;
+  var desc = this.describe();
+  return desc + (desc[desc.length-1] !== 'e' ? this._wordEnding : this._wordEnding.substr(1));
 };
 
 Game.Entity.prototype.describeName = function() {

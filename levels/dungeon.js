@@ -151,7 +151,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
       return true;
     }, function() {
       Game.story.newChapter("Puh, det er uhyggeligt hernede!");
-      Game.story.setTask("Find KA$$");
+      Game.story.setTask("Find og besejr KA$$");
       return true; /* remove from rule list */
     });
   }
@@ -171,6 +171,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
       Game.storyFlags.KASSDead = true;
       Game.story.newChapter("KA$$ er død");
       Game.story.setTask("Gå på kammeret");
+      Game.player._victory(Game.player);
       return true;
     });
   } else {

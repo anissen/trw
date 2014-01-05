@@ -31,7 +31,7 @@ Game.Beings.define("rat", {
 
 Game.Beings.define("bat", {
 	extend: "animal",
-	name: "stor flagremus",
+	name: "flagremus",
 	color: [160, 120, 30],
 	"char": "B"
 });
@@ -78,7 +78,7 @@ Game.Beings.define("kobold", {
 
 Game.Beings.define("orc chieftain", {
 	extend: "orc",
-	name: "stor ork",
+	name: "ork",
 	hp: 4,
 	speed: 105,
 	pv: 2,
@@ -90,7 +90,7 @@ Game.Beings.define("orc chieftain", {
 
 Game.Beings.define("goblin chieftain", {
 	extend: "goblin",
-	name: "stor trold",
+	name: "trold",
 	hp: 5,
 	speed: 110,
 	pv: 2,

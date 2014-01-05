@@ -64,7 +64,7 @@ Game.Player.prototype.handleEvent = function(e) {
 Game.Player.prototype._handleKey = function(code) {
 	if (this._ended) {
 		this._endGame();
-		return true;
+		return false;
 	}
 
 	if (code in this._directionKeys) {
@@ -72,7 +72,7 @@ Game.Player.prototype._handleKey = function(code) {
 
 		var direction = this._directionKeys[code];
 		if (direction == -1) { /* noop */
-			Game.status.show("You wait.");
+			Game.status.show("Du venter.");
 			return true;
 		}
 
@@ -233,7 +233,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 		return;
 	}
 	
-	Game.status.show("%A ligger her.".format(item));
+	Game.status.show("Her ligger %a.".format(item));
 }
 
 Game.Player.prototype._updateStats = function() {
@@ -248,7 +248,7 @@ Game.Player.prototype.adjustHP = function(diff) {
 Game.Player.prototype.die = function() {
 	Game.Being.prototype.die.call(this);
 	this._char = "☠";
-	this._color = [255, 255, 255];
+	this._color = [255, 155, 155];
 	Game.over();
 }
 
@@ -264,34 +264,34 @@ Game.Player.prototype.describeThe = function() {
 	return this.describe();
 }
 
+Game.Player.prototype.describeHe = function() {
+	return "du";
+}
+
 Game.Player.prototype.describeHim = function() {
 	return "dig";
 }
 
 Game.Player.prototype._victory = function(being) {
-	Game.status.show("You slowly approach the bride. She tries to step backwards...");
+	Game.status.show("Hurra!");
 	Game.status.show("<br/><br/>");
-	Game.status.show("...but her foot slips over the wet pier and she falls right into the deep water!");
-	Game.status.show("<br/><br/>");
-	Game.status.show("(press any key to continue)");
+	Game.status.show("KA$$ er besejret!");
 	
 	this._level.removeBeing(being);
-	Game.engine.removeActor(being);
+	Game.scheduler.remove(being);
 	this._ended = true;
 }
 
 Game.Player.prototype._endGame = function() {
 	Game.engine.lock();
 	
-	Game.story.newChapter("My story ends right here: the justice has been served and I have been spared of making moral decisions. Win-win!")
-	Game.story.addChapter("(The game ends as well; hope you enjoyed it!)")
+	Game.story.newChapter("Slut!");
 	
 	Game.status.clear();
-	Game.status.show("Achievements:<br/><br/>");
-	Game.status.show(this._gold + " gold found<br/>");
-	Game.status.show(this._secretGold + " secret gold stashes found<br/>");
-	Game.status.show(this._gems + " precious gems found<br/>");
-	Game.status.show(this._kills + " enemies killed<br/>");
-	Game.status.show(this._turns + " turns played");
+	Game.status.show("Bedrifter:<br/><br/>");
+	Game.status.show(this._gold + " guld fundet<br/>");
+	Game.status.show(this._gems + " ædelsten fundet<br/>");
+	Game.status.show(this._kills + " fjender dræbt<br/>");
+	Game.status.show(this._turns + " ture spillet");
 	
 }

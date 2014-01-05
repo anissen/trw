@@ -35,6 +35,7 @@ Game.Items.define("dagger", {
 Game.Items.define("sword", {
 	extend: "weapon",
 	name: "sværd",
+	wordEnding: "et",
 	description: "et all-round",
 	color: [150, 150, 150],
 	speed: 130,

@@ -195,7 +195,7 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("%The misser %the.".format(this, target));
+		Game.status.show("%He misser %the.".format(this, target));
 		return; 
 	}
 
@@ -207,14 +207,14 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 2a. not enough damage */
 	if (dmg <= 0) {
-		Game.status.show("%The skader %the ikke.".format(this, target));
+		Game.status.show("%He skader %the ikke.".format(this, target));
 		return;
 	}
 
 	/* 2b. damage */
 //	console.log("dmg dealt", dmg);
 	target.adjustHP(-dmg);	
-	var str = "%The rammer %the".format(this, target);
+	var str = "%He rammer %the".format(this, target);
 	var ratio = target.getHP() / target.getMaxHP();
 	if (ratio > 0) {
 		var types = ["lidt", "moderat", "svært", "kritisk"].reverse();
@@ -229,7 +229,7 @@ Game.Being.prototype.attack = function(target) {
 
 Game.Being.prototype.die = function() {
 	if (!this._level.items[this._position.join(",")]) { 
-		var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" lig"});
+		var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+"-lig"});
 		this._level.setItem(corpse, this._position[0], this._position[1]);
 	}
 	this._level.removeBeing(this);

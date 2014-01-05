@@ -109,7 +109,8 @@ var Game = {
 		this.storyFlags.nightEnded = 1;
 		this.storyFlags.gardenerDead = 1;
 */		
-    Game.LevelManager.get("level1").then(function(level) {
+		this.storyFlags.goToCellar = 1;
+    Game.LevelManager.get("level2").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
 /*

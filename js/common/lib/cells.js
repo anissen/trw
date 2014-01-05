@@ -91,12 +91,12 @@ Game.Cells.define("tree", {
 
 Game.Cells.define("staircase-up", {
 	"char": "<",
-	name: "staircase leading up"
+	name: "trappe up"
 });
 
 Game.Cells.define("staircase-down", {
 	"char": ">",
-	name: "staircase leading down"
+	name: "trappe ned"
 });
 
 Game.Cells.define("well", {
