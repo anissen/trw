@@ -5,7 +5,7 @@ Game.Intro = function() {
 	window.addEventListener("keypress", this);
 
   // hack to skip intro sequence:
-  this.handleEvent(null);
+  //this.handleEvent(null);
 }
 
 Game.Intro.prototype.then = function() {
