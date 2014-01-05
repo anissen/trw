@@ -129,7 +129,7 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 		if (being.isHostile()) {
 			this.attack(being);
 		} else if (being.getType() == "bride" && Game.storyFlags.gardenerDead) {
-			this._victory(being);
+			this._victory();
 		} else {
 			this._chat(being);
 		}
@@ -249,6 +249,8 @@ Game.Player.prototype.die = function() {
 	Game.Being.prototype.die.call(this);
 	this._char = "☠";
 	this._color = [255, 155, 155];
+	Game.story.newChapter("Jeg døde :(");
+	Game.story.setTask("Genindlæs siden for at prøve igen...");
 	Game.over();
 }
 
@@ -272,13 +274,17 @@ Game.Player.prototype.describeHim = function() {
 	return "dig";
 }
 
-Game.Player.prototype._victory = function(being) {
+Game.Player.prototype._victory = function() {
 	Game.status.show("Hurra!");
 	Game.status.show("<br/><br/>");
 	Game.status.show("KA$$ er besejret!");
+
+	Game.Being.prototype.die.call(this);
+	this._char = "✓";
+	this._color = [155, 255, 155];
+
+	Game.over();
 	
-	this._level.removeBeing(being);
-	Game.scheduler.remove(being);
 	this._ended = true;
 }
 

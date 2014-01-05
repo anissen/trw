@@ -171,7 +171,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
       Game.storyFlags.KASSDead = true;
       Game.story.newChapter("KA$$ er død");
       Game.story.setTask("Gå på kammeret");
-      Game.player._victory(Game.player);
+      Game.player._victory();
       return true;
     });
   } else {

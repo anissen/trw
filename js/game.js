@@ -39,9 +39,6 @@ var Game = {
 		level.setCell(floor, 1, 1);
 		level.setBeing(this.player, 1, 1);
 		Game.switchLevel(level, null, "fade");
-		
-		this.story.newChapter("Jeg døde :(");
-		this.story.setTask("Genindlæs siden for at prøve igen...");
 	},
 
 	switchLevel: function(newLevel, cell, direction) {
